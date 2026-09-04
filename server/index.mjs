@@ -16,6 +16,7 @@ try {
   }
 } catch {}
 const ROOT = path.resolve(__dirname, '..');
+const DIST_DIR = path.join(ROOT, 'dist');
 const DATA_DIR = path.join(__dirname, 'data');
 const UPLOAD_DIR = path.join(__dirname, 'uploads');
 const THEME_FILE = path.join(UPLOAD_DIR, 'portfolio-theme');
@@ -392,6 +393,82 @@ const server = http.createServer(async (req, res) => {
       } catch { return json(res, 404, { error: 'File not found.' }); }
     }
 
+        // Serve the Vite production frontend
+    if (req.method === 'GET') {
+      const requestedPath = decodeURIComponent(url.pathname);
+
+      // Never let frontend serving intercept API routes
+      if (!requestedPath.startsWith('/api/')) {
+        const cleanPath = requestedPath === '/' ? '/index.html' : requestedPath;
+
+        let filePath = path.join(DIST_DIR, cleanPath);
+
+        // Prevent path traversal
+        if (!filePath.startsWith(DIST_DIR)) {
+          return json(res, 400, { error: 'Invalid path' });
+        }
+
+        try {
+          const stat = await fs.stat(filePath);
+
+          if (stat.isFile()) {
+            const ext = path.extname(filePath).toLowerCase();
+
+            const mimeByExt = {
+              '.html': 'text/html; charset=utf-8',
+              '.js': 'application/javascript; charset=utf-8',
+              '.css': 'text/css; charset=utf-8',
+              '.json': 'application/json; charset=utf-8',
+              '.svg': 'image/svg+xml',
+              '.png': 'image/png',
+              '.jpg': 'image/jpeg',
+              '.jpeg': 'image/jpeg',
+              '.webp': 'image/webp',
+              '.gif': 'image/gif',
+              '.ico': 'image/x-icon',
+              '.woff': 'font/woff',
+              '.woff2': 'font/woff2',
+              '.ttf': 'font/ttf'
+            };
+
+            const mime = mimeByExt[ext] || 'application/octet-stream';
+
+            res.writeHead(200, {
+              'Content-Type': mime,
+              'Content-Length': stat.size,
+              'Cache-Control': ext === '.html'
+                ? 'no-cache'
+                : 'public, max-age=31536000, immutable'
+            });
+
+            return fsSync.createReadStream(filePath).pipe(res);
+          }
+        } catch {
+          // File does not exist — continue to SPA fallback.
+        }
+
+        // React Router fallback:
+        // /projects, /certificates, /resume, etc.
+        // all receive index.html so the client-side router can handle them.
+        try {
+          const indexPath = path.join(DIST_DIR, 'index.html');
+          const stat = await fs.stat(indexPath);
+
+          res.writeHead(200, {
+            'Content-Type': 'text/html; charset=utf-8',
+            'Content-Length': stat.size,
+            'Cache-Control': 'no-cache'
+          });
+
+          return fsSync.createReadStream(indexPath).pipe(res);
+        } catch {
+          return json(res, 503, {
+            error: 'Frontend build is not available.'
+          });
+        }
+      }
+    }
+
     json(res, 404, { error: 'Not found' });
   } catch (error) {
     console.error(error);
@@ -399,4 +476,6 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
-server.listen(PORT, () => console.log(`Portfolio API running on http://localhost:${PORT}`));
+server.listen(PORT, '0.0.0.0', () => {
+  console.log(`Portfolio server running on port ${PORT}`);
+});
