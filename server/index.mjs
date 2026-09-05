@@ -23,6 +23,7 @@ const THEME_FILE = path.join(UPLOAD_DIR, 'portfolio-theme');
 const THEME_META = path.join(DATA_DIR, 'theme.json');
 const DB_FILE = path.join(DATA_DIR, 'documents.json');
 const PROJECTS_FILE = path.join(DATA_DIR, 'projects.json');
+const ABOUT_FILE = path.join(DATA_DIR, 'about.json');
 const PORT = Number(process.env.PORT || 5000);
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'change-this-password';
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin';
@@ -59,6 +60,31 @@ async function readProjects() {
 async function writeProjects(items) {
   await fs.writeFile(PROJECTS_FILE, JSON.stringify(items, null, 2));
 }
+
+async function readAbout() {
+  try {
+    return JSON.parse(await fs.readFile(ABOUT_FILE, 'utf8'));
+  } catch {
+    return {
+      name: 'Alwali Umara Amshi',
+      role: 'Educator • Technology Builder • Community Leader • Innovator',
+      intro: 'I build practical digital solutions that connect education, technology, data, and community impact.',
+      whoIAm: '',
+      educationTeaching: '',
+      technology: '',
+      communityLeadership: '',
+      innovation: '',
+      approach: '',
+      facts: [],
+      updatedAt: null
+    };
+  }
+}
+
+async function writeAbout(about) {
+  await fs.writeFile(ABOUT_FILE, JSON.stringify(about, null, 2));
+}
+
 function json(res, status, data) {
   const body = JSON.stringify(data);
   res.writeHead(status, { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(body), 'Access-Control-Allow-Origin': process.env.CORS_ORIGIN || '*' });
@@ -392,6 +418,63 @@ const server = http.createServer(async (req, res) => {
         return fsSync.createReadStream(filePath).pipe(res);
       } catch { return json(res, 404, { error: 'File not found.' }); }
     }
+
+    if (req.method === 'GET' && url.pathname === '/api/about') {
+  return json(res, 200, await readAbout());
+}
+
+if (req.method === 'GET' && url.pathname === '/api/admin/about') {
+  if (!isAuthorized(req)) {
+    return json(res, 401, { error: 'Unauthorized' });
+  }
+
+  return json(res, 200, await readAbout());
+}
+
+if (req.method === 'PUT' && url.pathname === '/api/about') {
+  if (!isAuthorized(req)) {
+    return json(res, 401, { error: 'Unauthorized' });
+  }
+
+  try {
+    const body = JSON.parse(
+      (await readBody(req, 256 * 1024)).toString() || '{}'
+    );
+
+    const about = {
+      name: String(body.name ?? '').trim().slice(0, 120),
+      role: String(body.role ?? '').trim().slice(0, 200),
+      intro: String(body.intro ?? '').trim().slice(0, 1000),
+      whoIAm: String(body.whoIAm ?? '').trim().slice(0, 5000),
+      educationTeaching: String(body.educationTeaching ?? '').trim().slice(0, 5000),
+      technology: String(body.technology ?? '').trim().slice(0, 5000),
+      communityLeadership: String(body.communityLeadership ?? '').trim().slice(0, 5000),
+      innovation: String(body.innovation ?? '').trim().slice(0, 5000),
+      approach: String(body.approach ?? '').trim().slice(0, 5000),
+      facts: Array.isArray(body.facts)
+        ? body.facts
+            .map((item) => String(item).trim())
+            .filter(Boolean)
+            .slice(0, 12)
+        : [],
+      updatedAt: new Date().toISOString()
+    };
+
+    if (!about.name || !about.intro) {
+      return json(res, 400, {
+        error: 'Name and introduction are required.'
+      });
+    }
+
+    await writeAbout(about);
+
+    return json(res, 200, about);
+  } catch (error) {
+    return json(res, 400, {
+      error: 'Invalid About data.'
+    });
+  }
+}
 
         // Serve the Vite production frontend
     if (req.method === 'GET') {

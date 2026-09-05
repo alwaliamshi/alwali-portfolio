@@ -41,3 +41,25 @@ export function getAdminProjects() { return request('/api/admin/projects', { hea
 export function createProject(formData) { return request('/api/projects', { method: 'POST', headers: authHeaders(), body: formData }); }
 export function updateProject(id, formData) { return request(`/api/projects/${id}`, { method: 'PUT', headers: authHeaders(), body: formData }); }
 export function deleteProject(id) { return request(`/api/projects/${id}`, { method: 'DELETE', headers: authHeaders() }); }
+
+export function getAbout() {
+  return request('/api/about', { cache: 'no-store' });
+}
+
+export function getAdminAbout() {
+  return request('/api/admin/about', {
+    headers: authHeaders(),
+    cache: 'no-store'
+  });
+}
+
+export function updateAbout(about) {
+  return request('/api/about', {
+    method: 'PUT',
+    headers: {
+      ...authHeaders(),
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(about)
+  });
+}

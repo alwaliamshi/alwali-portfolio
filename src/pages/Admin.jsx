@@ -1,17 +1,40 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   apiUrl, clearAdminToken, createProject, deleteDocument, deleteProject, deleteTheme,
-  getAdminDocuments, getAdminOriginalUrl, getAdminProjects, getAdminToken, getTheme,
-  login, setAdminToken, updateProject, uploadDocument, uploadTheme
+  getAdminDocuments,
+  getAdminOriginalUrl,
+  getAdminProjects,
+  getAdminToken,
+  getAdminAbout,
+  getTheme,
+  login,
+  setAdminToken,
+  updateAbout,
+  updateProject,
+  uploadDocument,
+  uploadTheme
 } from '../lib/api';
 import Toast from '../components/shared/Toast';
 
 const emptyDocument = { title: '', issuer: '', date: '', category: 'certificate', file: null };
 const emptyProject = { id: null, title: '', description: '', tech: '', featured: true, iconUrl: '', iconFile: null, url: '' };
 
+const emptyAbout = {
+  name: 'Alwali Umara Amshi',
+  role: 'Educator \u2022 Technology Builder \u2022 Community Leader \u2022 Innovator',
+  intro: '',
+  whoIAm: '',
+  educationTeaching: '',
+  technology: '',
+  communityLeadership: '',
+  innovation: '',
+  approach: '',
+  facts: []
+};
+
 const nav = [
   ['dashboard', '▦', 'Dashboard'], ['projects', '◇', 'Projects'], ['certificates', '♙', 'Certificates'],
-  ['resume', '▤', 'Resume'], ['documents', '▧', 'Documents'], ['appearance', '◌', 'Appearance', 'New'], ['settings', '⚙', 'Settings']
+  ['resume', '▤', 'Resume'], ['about', '◎', 'About'], ['documents', '▧', 'Documents'], ['appearance', '◌', 'Appearance', 'New'], ['settings', '⚙', 'Settings']
 ];
 
 const Icon = ({ children }) => <span className="side-icon">{children}</span>;
@@ -21,6 +44,7 @@ export default function Admin() {
   const [credentials, setCredentials] = useState({ username: '', password: '' });
   const [documents, setDocuments] = useState([]);
   const [projects, setProjects] = useState([]);
+  const [about, setAbout] = useState(emptyAbout);
   const [documentForm, setDocumentForm] = useState(emptyDocument);
   const [projectForm, setProjectForm] = useState(emptyProject);
   const [projectEditorOpen, setProjectEditorOpen] = useState(false);
@@ -37,8 +61,16 @@ export default function Admin() {
   const notify = useCallback((message, type = 'success') => setToast({ message, type, id: Date.now() }), []);
   const loadAll = useCallback(async () => {
     try {
-      const [docs, projectItems, currentTheme] = await Promise.all([getAdminDocuments(), getAdminProjects(), getTheme()]);
-      setDocuments(docs); setProjects(projectItems); setTheme(currentTheme);
+      const [docs, projectItems, currentTheme, currentAbout] = await Promise.all([
+        getAdminDocuments(),
+        getAdminProjects(),
+        getTheme(),
+        getAdminAbout()
+      ]);
+      setDocuments(docs);
+      setProjects(projectItems);
+      setTheme(currentTheme);
+      setAbout(currentAbout);
     } catch (e) {
       setError(e.message); clearAdminToken(); setAuthenticated(false);
     }
@@ -54,6 +86,27 @@ export default function Admin() {
   load();
 }, [authenticated, loadAll]);
   
+const handleAboutSubmit = async (event) => {
+  event.preventDefault();
+
+  setBusy(true);
+  setError('');
+
+  try {
+    const saved = await updateAbout(about);
+
+    setAbout(saved);
+
+    setToast({
+      type: 'success',
+      message: 'About section updated successfully.'
+    });
+  } catch (err) {
+    setError(err.message || 'Could not update About section.');
+  } finally {
+    setBusy(false);
+  }
+};
 
   async function handleLogin(e) {
   e.preventDefault();
@@ -286,6 +339,156 @@ export default function Admin() {
 
         {activePanel === 'resume' && <section className="glass admin-card"><div className="section-heading"><div><span className="eyebrow">Curriculum Vitae</span><h2>Resume</h2><p>The latest uploaded resume is automatically used on the public Resume page.</p></div><button className="btn primary" onClick={() => openUpload('resume')}>Upload / Update Resume</button></div><div className="document-list">{documents.filter((d) => d.category === 'resume').length === 0 ? <div className="empty-state"><strong>No resume uploaded.</strong><p>Upload your latest resume to make it available publicly.</p></div> : documents.filter((d) => d.category === 'resume').map((doc) => <div className="document-row" key={doc.id}><div><strong>{doc.title || 'Resume'}</strong><p>{doc.originalName} · {new Date(doc.createdAt).toLocaleDateString()}</p></div><div className="row-actions"><a className="text-link" href={apiUrl(doc.url)} target="_blank" rel="noreferrer">View resume</a><button className="danger-btn" onClick={() => handleDeleteDocument(doc.id)}>Delete</button></div></div>)}</div></section>}
 
+        {activePanel === 'about' && (
+  <section className="glass admin-card">
+    <div className="admin-card-header">
+      <div>
+        <p className="eyebrow">PORTFOLIO CONTENT</p>
+        <h2>About Section</h2>
+        <p>
+          Edit the information displayed on your public About page.
+        </p>
+      </div>
+    </div>
+
+    <form onSubmit={handleAboutSubmit}>
+      <div className="form-grid">
+        <label>
+          <span>Name</span>
+          <input
+            type="text"
+            value={about.name}
+            onChange={(e) =>
+              setAbout({ ...about, name: e.target.value })
+            }
+            required
+          />
+        </label>
+
+        <label>
+          <span>Role / Identity</span>
+          <input
+            type="text"
+            value={about.role}
+            onChange={(e) =>
+              setAbout({ ...about, role: e.target.value })
+            }
+          />
+        </label>
+      </div>
+
+      <label>
+        <span>Introduction</span>
+        <textarea
+          rows="4"
+          value={about.intro}
+          onChange={(e) =>
+            setAbout({ ...about, intro: e.target.value })
+          }
+          required
+        />
+      </label>
+
+      <label>
+        <span>Who I Am</span>
+        <textarea
+          rows="6"
+          value={about.whoIAm}
+          onChange={(e) =>
+            setAbout({ ...about, whoIAm: e.target.value })
+          }
+        />
+      </label>
+
+      <label>
+        <span>Education & Teaching</span>
+        <textarea
+          rows="6"
+          value={about.educationTeaching}
+          onChange={(e) =>
+            setAbout({ ...about, educationTeaching: e.target.value })
+          }
+        />
+      </label>
+
+      <label>
+        <span>Technology</span>
+        <textarea
+          rows="6"
+          value={about.technology}
+          onChange={(e) =>
+            setAbout({ ...about, technology: e.target.value })
+          }
+        />
+      </label>
+
+      <label>
+        <span>Community & Leadership</span>
+        <textarea
+          rows="6"
+          value={about.communityLeadership}
+          onChange={(e) =>
+            setAbout({ ...about, communityLeadership: e.target.value })
+          }
+        />
+      </label>
+
+      <label>
+        <span>Innovation</span>
+        <textarea
+          rows="6"
+          value={about.innovation}
+          onChange={(e) =>
+            setAbout({ ...about, innovation: e.target.value })
+          }
+        />
+      </label>
+
+      <label>
+        <span>Approach</span>
+        <textarea
+          rows="6"
+          value={about.approach}
+          onChange={(e) =>
+            setAbout({ ...about, approach: e.target.value })
+          }
+        />
+      </label>
+
+      <label>
+        <span>Key Facts</span>
+        <textarea
+          rows="7"
+          value={about.facts.join('\n')}
+          onChange={(e) =>
+            setAbout({
+              ...about,
+              facts: e.target.value
+                .split('\n')
+                .map((item) => item.trim())
+                .filter(Boolean)
+            })
+          }
+          placeholder="One fact per line"
+        />
+        <small>
+          Enter one key fact per line.
+        </small>
+      </label>
+
+      <div className="admin-actions">
+        <button
+          type="submit"
+          className="btn primary"
+          disabled={busy}
+        >
+          {busy ? 'Saving...' : 'Save About'}
+        </button>
+      </div>
+    </form>
+  </section>
+)}
+        
         {activePanel === 'appearance' && <section className="glass admin-card"><div className="section-heading"><div><span className="eyebrow">Site appearance</span><h2>Default Theme & Wallpaper</h2><p>The reference red/blue design is the permanent fallback. Wallpaper is optional.</p></div><span className="status-pill">{theme?.url ? 'Custom wallpaper' : 'Default Dark'}</span></div><div className="appearance-preview"><div className="default-theme-preview"><span>Alwali</span></div>{theme?.url ? <img src={`${apiUrl(theme.url)}?v=${encodeURIComponent(theme.updatedAt || '')}`} alt="Current wallpaper" /> : <div className="theme-placeholder"><strong>No custom wallpaper</strong><span>Default theme is active</span></div>}</div><div className="form-grid two-col appearance-form"><label className="file-field">Choose wallpaper<input type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" onChange={(e) => setThemeFile(e.target.files?.[0] || null)} /></label><div className="theme-actions"><button className="btn primary" disabled={themeBusy || !themeFile} onClick={async () => { if (!themeFile) return; setThemeBusy(true); setError(''); try { const data = new FormData(); data.append('file', themeFile); const next = await uploadTheme(data); setTheme(next); setThemeFile(null); notify('Wallpaper updated successfully.'); } catch (e) { setError(e.message); } finally { setThemeBusy(false); } }}>{themeBusy ? 'Updating…' : 'Apply wallpaper'}</button>{theme?.url && <button className="btn secondary" disabled={themeBusy} onClick={async () => { setThemeBusy(true); setError(''); try { await deleteTheme(); setTheme({ url: null, updatedAt: new Date().toISOString() }); notify('Wallpaper removed.'); } catch (e) { setError(e.message); } finally { setThemeBusy(false); } }}>Remove wallpaper</button>}</div></div></section>}
 
         {activePanel === 'settings' && <section className="glass admin-card"><div className="section-heading"><div><span className="eyebrow">Account</span><h2>Settings</h2><p>Basic account and portfolio controls.</p></div></div><div className="settings-list"><div><strong>Administrator</strong><span>Signed in as the portfolio administrator.</span></div><div><strong>Public theme</strong><span>{theme?.url ? 'Custom wallpaper active' : 'Default red/blue theme active'}</span></div><div><strong>Security</strong><span>Keep your administrator password private and use a strong password in production.</span></div></div></section>}

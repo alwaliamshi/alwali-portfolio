@@ -1,4 +1,4 @@
-[
+﻿[
   {
     "id": "marketpulse-ng",
     "title": "MarketPulse NG",
@@ -84,7 +84,7 @@
   },
   {
     "id": "8d3f54f0-54a4-43aa-adbc-a4019966153e",
-    "title": "AIIM — Amshi Integrated Inquiry Model",
+    "title": "AIIM - Amshi Integrated Inquiry Model",
     "description": "The Amshi Integrated Inquiry Model (AIIM) is an educational framework developed to structure learning around inquiry, exploration, investigation, reflection, and meaningful application. It represents an effort to connect classroom practice with learner-centered problem solving and practical knowledge development. AIIM reflects the intersection of education, instructional design, and technology-driven approaches to improving how learners engage with complex ideas.",
     "tech": [
       "Instructional Design",
@@ -97,7 +97,7 @@
   },
   {
     "id": "553d5fea-bdca-4acb-8f82-2c04574eab27",
-    "title": "Alwali Umara Amshi — Personal Portfolio",
+    "title": "Alwali Umara Amshi - Personal Portfolio",
     "description": "A full-stack personal portfolio platform designed to showcase projects, certificates, professional development, and technical work through a modern responsive interface. The platform includes an authenticated administrative dashboard for managing projects, certificates, documents, and site appearance, together with dynamic theme and wallpaper support. Built with React and Vite and integrated with a Node.js backend, the project demonstrates practical experience in frontend engineering, API integration, authentication, content management, responsive UI/UX, and deployment-oriented application development.",
     "tech": [
       "React",
