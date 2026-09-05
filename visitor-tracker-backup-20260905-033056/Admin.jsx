@@ -15,7 +15,6 @@ import {
   uploadTheme
 } from '../lib/api';
 import Toast from '../components/shared/Toast';
-import VisitorStats from '../components/admin/VisitorStats';
 
 const emptyDocument = { title: '', issuer: '', date: '', category: 'certificate', file: null };
 const emptyProject = { id: null, title: '', description: '', tech: '', featured: true, iconUrl: '', iconFile: null, url: '' };
@@ -34,8 +33,8 @@ const emptyAbout = {
 };
 
 const nav = [
-  ['dashboard', '▥', 'Dashboard'], ['projects', '◆', 'Projects'], ['certificates', '★', 'Certificates'],
-  ['resume', '▥', 'Resume'], ['about', '◉', 'About'], ['documents', '▥', 'Documents'], ['appearance', '◌', 'Appearance', 'New'], ['settings', '⚙', 'Settings']
+  ['dashboard', '▦', 'Dashboard'], ['projects', '◇', 'Projects'], ['certificates', '♙', 'Certificates'],
+  ['resume', '▤', 'Resume'], ['about', '◎', 'About'], ['documents', '▧', 'Documents'], ['appearance', '◌', 'Appearance', 'New'], ['settings', '⚙', 'Settings']
 ];
 
 const Icon = ({ children }) => <span className="side-icon">{children}</span>;
@@ -290,17 +289,15 @@ const handleAboutSubmit = async (event) => {
         {activePanel === 'dashboard' && (
           <section className="dashboard-view">
             <div className="stats-grid">
-              {[['Projects', stats.projects, 'Total Projects', '▥'], ['Certificates', stats.certificates, 'Total Certificates', '★'], ['Documents', stats.docs, 'Total Documents', '▥'], ['Downloads', stats.downloads, 'Total Resume Downloads', '⇩']].map(([label, value, sub, icon]) => <div className="glass stat-card" key={label}><div><span>{label}</span><strong>{value}</strong><small>{sub}</small></div><b>{icon}</b></div>)}
+              {[['Projects', stats.projects, 'Total Projects', '▦'], ['Certificates', stats.certificates, 'Total Certificates', '♙'], ['Documents', stats.docs, 'Total Documents', '▤'], ['Downloads', stats.downloads, 'Total Resume Downloads', '⇩']].map(([label, value, sub, icon]) => <div className="glass stat-card" key={label}><div><span>{label}</span><strong>{value}</strong><small>{sub}</small></div><b>{icon}</b></div>)}
             </div>
-            <VisitorStats />
-
             <div className="dashboard-columns">
               <div className="glass admin-card quick-actions">
                 <div className="section-heading"><div><h2>Quick Actions</h2></div></div>
                 <button onClick={() => { setActivePanel('projects'); setProjectForm(emptyProject); setProjectEditorOpen(true); }}><span className="qa-green">＋</span><div><strong>Add New Project</strong><small>Add a new project to showcase</small></div><b>›</b></button>
                 <button onClick={() => openUpload('certificate')}><span className="qa-gold">♙</span><div><strong>Upload Certificate</strong><small>Add a new certificate</small></div><b>›</b></button>
-                <button onClick={() => openUpload('resume')}><span className="qa-purple">▣</span><div><strong>Upload Resume</strong><small>Upload or update resume</small></div><b>›</b></button>
-                <button onClick={() => openUpload('document')}><span className="qa-blue">▤</span><div><strong>Upload Document</strong><small>Upload other documents</small></div><b>›</b></button>
+                <button onClick={() => openUpload('resume')}><span className="qa-purple">▤</span><div><strong>Upload Resume</strong><small>Upload or update resume</small></div><b>›</b></button>
+                <button onClick={() => openUpload('document')}><span className="qa-blue">▧</span><div><strong>Upload Document</strong><small>Upload other documents</small></div><b>›</b></button>
                 <button onClick={() => setActivePanel('appearance')}><span className="qa-cyan">◌</span><div><strong>Appearance Settings</strong><small>Change website wallpaper/theme</small></div><b>›</b></button>
               </div>
 
@@ -322,8 +319,8 @@ const handleAboutSubmit = async (event) => {
                   <button className="upload-document-menu-btn" onClick={openDashboardUpload}>＋&nbsp; Upload Document <span>{uploadMenuOpen ? '⌃' : '⌄'}</span></button>
                   {uploadMenuOpen && <div className="dashboard-upload-menu">
                     <button onClick={() => openUpload('certificate')}><span>♙</span><div><strong>Certificate</strong><small>Add a new certificate</small></div></button>
-                    <button onClick={() => openUpload('resume')}><span>▣</span><div><strong>Resume</strong><small>Upload or update resume</small></div></button>
-                    <button onClick={() => openUpload('document')}><span>▤</span><div><strong>Other Document</strong><small>Upload other documents</small></div></button>
+                    <button onClick={() => openUpload('resume')}><span>▤</span><div><strong>Resume</strong><small>Upload or update resume</small></div></button>
+                    <button onClick={() => openUpload('document')}><span>▧</span><div><strong>Other Document</strong><small>Upload other documents</small></div></button>
                   </div>}
                 </div>
               </div>
@@ -513,4 +510,3 @@ function UploadForm({ documentForm, setDocumentForm, handleUpload, busy, setUplo
     <div className="editor-actions"><button type="button" className="btn secondary" onClick={() => setUploadOpen(false)}>Cancel</button><button className="btn primary" disabled={busy}>{busy ? 'Uploading…' : 'Upload document'}</button></div>
   </form>;
 }
-

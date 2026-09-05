@@ -508,5 +508,22 @@
     "hasPublicVersion": true,
     "published": true,
     "createdAt": "2026-09-03T20:49:03.898Z"
+  },
+  {
+    "id": "1a30930e-f25f-4bf6-86b1-df3db3b292a0",
+    "title": "Resume",
+    "issuer": "Skilladder",
+    "date": "June 2026",
+    "category": "resume",
+    "originalName": "Alwali_Umara_Amshi_Resume_V3_Skillader.pdf",
+    "mimeType": "application/pdf",
+    "size": 113623,
+    "url": "/api/admin/documents/1a30930e-f25f-4bf6-86b1-df3db3b292a0/original",
+    "privateFilename": "1a30930e-f25f-4bf6-86b1-df3db3b292a0-Alwali_Umara_Amshi_Resume_V3_Skillader.pdf",
+    "publicUrl": "/uploads/1a30930e-f25f-4bf6-86b1-df3db3b292a0-public-Alwali_Umara_Amshi_Resume_V3_Skillader.pdf",
+    "publicMimeType": "application/pdf",
+    "hasPublicVersion": true,
+    "published": true,
+    "createdAt": "2026-09-05T05:11:23.535Z"
   }
 ]

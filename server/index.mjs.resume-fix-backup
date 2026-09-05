@@ -492,62 +492,23 @@ const server = http.createServer(async (req, res) => {
       const filename = `${id}-${safeFileName(file.originalName)}`;
       const originalPath = path.join(UPLOAD_DIR, filename);
       await fs.writeFile(originalPath, file.buffer);
-      
       let publicUrl = null;
-    let publicMimeType = null;
-
-    if (category === 'certificate') {
-      if (!['application/pdf', 'image/jpeg', 'image/png', 'image/webp'].includes(file.mimeType)) {
-        await fs.rm(originalPath, { force: true });
-        return json(res, 415, {
-          error: 'Automatic certificate redaction supports PDF, JPG, PNG and WEBP certificates.'
-        });
+      let publicMimeType = null;
+      if (category === 'certificate') {
+        if (!['application/pdf', 'image/jpeg', 'image/png', 'image/webp'].includes(file.mimeType)) {
+          await fs.rm(originalPath, { force: true });
+          return json(res, 415, { error: 'Automatic certificate redaction supports PDF, JPG, PNG and WEBP certificates.' });
+        }
+        const publicFilename = `${id}-public-${safeFileName(file.originalName).replace(/\.(pdf|jpe?g|png|webp)$/i, '')}${file.mimeType === 'application/pdf' ? '.pdf' : '.png'}`;
+        try {
+          const result = await generatePublicCopy(originalPath, file.mimeType, path.join(UPLOAD_DIR, publicFilename));
+          publicUrl = `/uploads/${publicFilename}`;
+          publicMimeType = result.mimeType;
+        } catch (redactionError) {
+          await fs.rm(originalPath, { force: true });
+          return json(res, 422, { error: `Could not automatically create a safe public copy: ${redactionError.message}` });
+        }
       }
-
-      const publicFilename =
-        `${id}-public-${safeFileName(file.originalName).replace(/\.(pdf|jpe?g|png|webp)$/i, '')}` +
-        `${file.mimeType === 'application/pdf' ? '.pdf' : '.png'}`;
-
-      try {
-        const result = await generatePublicCopy(
-          originalPath,
-          file.mimeType,
-          path.join(UPLOAD_DIR, publicFilename)
-        );
-
-        publicUrl = `/uploads/${publicFilename}`;
-        publicMimeType = result.mimeType;
-      } catch (redactionError) {
-        await fs.rm(originalPath, { force: true });
-        return json(res, 422, {
-          error: `Could not automatically create a safe public copy: ${redactionError.message}`
-        });
-      }
-    } else if (category === 'resume') {
-      if (file.mimeType !== 'application/pdf') {
-        await fs.rm(originalPath, { force: true });
-        return json(res, 415, {
-          error: 'Resume uploads must be PDF files.'
-        });
-      }
-
-      const publicFilename =
-        `${id}-public-${safeFileName(file.originalName).replace(/\.pdf$/i, '')}.pdf`;
-
-      const publicPath = path.join(UPLOAD_DIR, publicFilename);
-
-      try {
-        await fs.copyFile(originalPath, publicPath);
-        publicUrl = `/uploads/${publicFilename}`;
-        publicMimeType = 'application/pdf';
-      } catch (copyError) {
-        await fs.rm(originalPath, { force: true });
-        return json(res, 422, {
-          error: `Could not create public resume copy: ${copyError.message}`
-        });
-      }
-    }
-
       const doc = { id, title: fields.title?.trim() || file.originalName, issuer: fields.issuer?.trim() || '', date: fields.date?.trim() || '', category, originalName: file.originalName, mimeType: file.mimeType, size: file.buffer.length, url: `/api/admin/documents/${id}/original`, privateFilename: filename, publicUrl, publicMimeType, hasPublicVersion: Boolean(publicUrl), published: fields.published !== 'false', createdAt: new Date().toISOString() };
       const docs = await readDb(); docs.push(doc); await writeDb(docs);
       return json(res, 201, doc);

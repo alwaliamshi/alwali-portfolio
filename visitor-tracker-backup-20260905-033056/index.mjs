@@ -1,4 +1,4 @@
-﻿import http from 'node:http';
+import http from 'node:http';
 import fs from 'node:fs/promises';
 import fsSync from 'node:fs';
 import path from 'node:path';
@@ -24,7 +24,6 @@ const THEME_META = path.join(DATA_DIR, 'theme.json');
 const DB_FILE = path.join(DATA_DIR, 'documents.json');
 const PROJECTS_FILE = path.join(DATA_DIR, 'projects.json');
 const ABOUT_FILE = path.join(DATA_DIR, 'about.json');
-const VISITORS_FILE = path.join(DATA_DIR, 'visitors.json');
 const PORT = Number(process.env.PORT || 5000);
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'change-this-password';
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin';
@@ -41,23 +40,11 @@ const ALLOWED = new Map([
 await fs.mkdir(DATA_DIR, { recursive: true });
 await fs.mkdir(UPLOAD_DIR, { recursive: true });
 try { await fs.access(DB_FILE); } catch { await fs.writeFile(DB_FILE, '[]'); }
-try { await fs.access(VISITORS_FILE); } catch {
-  await fs.writeFile(VISITORS_FILE, JSON.stringify({
-    totalVisits: 0,
-    uniqueVisitors: 0,
-    todayVisits: 0,
-    lastVisit: null,
-    lastDate: null,
-    pageViews: {},
-    dailyVisits: {},
-    visitors: []
-  }, null, 2));
-}
 try { await fs.access(PROJECTS_FILE); } catch {
   await fs.writeFile(PROJECTS_FILE, JSON.stringify([
-    { id: crypto.randomUUID(), title: 'MarketPulse NG', description: 'A decentralized market intelligence system tracking real-time market prices in Nigeria.', tech: ['React', 'Data Systems', 'UI/UX'], featured: true, icon: 'â–¥', url: '' },
-    { id: crypto.randomUUID(), title: 'Click Counter', description: 'A simple React mini project demonstrating state management.', tech: ['React', 'JavaScript'], featured: true, icon: 'â†¯', url: '' },
-    { id: crypto.randomUUID(), title: 'AI Transcription Pro', description: 'A transcription tool for converting audio to text using AI workflows.', tech: ['FastAPI', 'Python', 'AI'], featured: true, icon: 'â—‰', url: '' }
+    { id: crypto.randomUUID(), title: 'MarketPulse NG', description: 'A decentralized market intelligence system tracking real-time market prices in Nigeria.', tech: ['React', 'Data Systems', 'UI/UX'], featured: true, icon: '▥', url: '' },
+    { id: crypto.randomUUID(), title: 'Click Counter', description: 'A simple React mini project demonstrating state management.', tech: ['React', 'JavaScript'], featured: true, icon: '↯', url: '' },
+    { id: crypto.randomUUID(), title: 'AI Transcription Pro', description: 'A transcription tool for converting audio to text using AI workflows.', tech: ['FastAPI', 'Python', 'AI'], featured: true, icon: '◉', url: '' }
   ], null, 2));
 }
 
@@ -80,7 +67,7 @@ async function readAbout() {
   } catch {
     return {
       name: 'Alwali Umara Amshi',
-      role: 'Educator â€¢ Technology Builder â€¢ Community Leader â€¢ Innovator',
+      role: 'Educator • Technology Builder • Community Leader • Innovator',
       intro: 'I build practical digital solutions that connect education, technology, data, and community impact.',
       whoIAm: '',
       educationTeaching: '',
@@ -184,140 +171,6 @@ const server = http.createServer(async (req, res) => {
 
   try {
     if (req.method === 'GET' && url.pathname === '/api/health') return json(res, 200, { ok: true });
-
-    if (req.method === 'POST' && url.pathname === '/api/visitors') {
-      try {
-        const body = JSON.parse((await readBody(req, 64 * 1024)).toString() || '{}');
-
-        const visitorId = String(body.visitorId || '').trim();
-        const pagePath = String(body.path || '/').trim() || '/';
-
-        if (!visitorId || visitorId.length > 200) {
-          return json(res, 400, { error: 'Invalid visitor identifier.' });
-        }
-
-        const safePath = pagePath.startsWith('/') ? pagePath.slice(0, 200) : '/';
-
-        let data;
-
-        try {
-          data = JSON.parse(await fs.readFile(VISITORS_FILE, 'utf8'));
-        } catch {
-          data = {
-            totalVisits: 0,
-            uniqueVisitors: 0,
-            todayVisits: 0,
-            lastVisit: null,
-            lastDate: null,
-            pageViews: {},
-            dailyVisits: {},
-            visitors: []
-          };
-        }
-
-        const now = new Date();
-        const today = now.toISOString().slice(0, 10);
-
-        const visitorHash = crypto
-          .createHash('sha256')
-          .update(visitorId)
-          .digest('hex');
-
-        if (!Array.isArray(data.visitors)) {
-          data.visitors = [];
-        }
-
-        const isNewVisitor = !data.visitors.includes(visitorHash);
-
-        if (isNewVisitor) {
-          data.visitors.push(visitorHash);
-          data.uniqueVisitors = Number(data.uniqueVisitors || 0) + 1;
-        }
-
-        data.totalVisits = Number(data.totalVisits || 0) + 1;
-
-        if (data.lastDate !== today) {
-          data.todayVisits = 0;
-          data.lastDate = today;
-        }
-
-        data.todayVisits = Number(data.todayVisits || 0) + 1;
-        data.lastVisit = now.toISOString();
-
-        if (!data.dailyVisits || typeof data.dailyVisits !== 'object') {
-          data.dailyVisits = {};
-        }
-
-        data.dailyVisits[today] = Number(data.dailyVisits[today] || 0) + 1;
-
-        if (!data.pageViews || typeof data.pageViews !== 'object') {
-          data.pageViews = {};
-        }
-
-        data.pageViews[safePath] = Number(data.pageViews[safePath] || 0) + 1;
-
-        // Keep the anonymous visitor identifier list bounded.
-        // The unique visitor total remains available even if old hashes
-        // are eventually removed.
-        if (data.visitors.length > 20000) {
-          data.visitors = data.visitors.slice(-20000);
-        }
-
-        // Keep daily statistics for approximately one year.
-        const dates = Object.keys(data.dailyVisits).sort();
-
-        while (dates.length > 366) {
-          const oldest = dates.shift();
-          delete data.dailyVisits[oldest];
-        }
-
-        await fs.writeFile(
-          VISITORS_FILE,
-          JSON.stringify(data, null, 2)
-        );
-
-        return json(res, 201, {
-          success: true
-        });
-      } catch {
-        return json(res, 400, {
-          error: 'Could not record visitor.'
-        });
-      }
-    }
-
-    if (req.method === 'GET' && url.pathname === '/api/admin/visitors') {
-      if (!isAuthorized(req)) {
-        return json(res, 401, { error: 'Unauthorized' });
-      }
-
-      let data;
-
-      try {
-        data = JSON.parse(await fs.readFile(VISITORS_FILE, 'utf8'));
-      } catch {
-        data = {
-          totalVisits: 0,
-          uniqueVisitors: 0,
-          todayVisits: 0,
-          lastVisit: null,
-          lastDate: null,
-          pageViews: {},
-          dailyVisits: {},
-          visitors: []
-        };
-      }
-
-      return json(res, 200, {
-        totalVisits: Number(data.totalVisits || 0),
-        uniqueVisitors: Number(data.uniqueVisitors || 0),
-        todayVisits: Number(data.todayVisits || 0),
-        lastVisit: data.lastVisit || null,
-        pageViews: data.pageViews || {},
-        dailyVisits: data.dailyVisits || {}
-      });
-    }
-
 
     if (req.method === 'GET' && url.pathname === '/api/theme') {
       const theme = await readTheme();
@@ -492,62 +345,23 @@ const server = http.createServer(async (req, res) => {
       const filename = `${id}-${safeFileName(file.originalName)}`;
       const originalPath = path.join(UPLOAD_DIR, filename);
       await fs.writeFile(originalPath, file.buffer);
-      
       let publicUrl = null;
-    let publicMimeType = null;
-
-    if (category === 'certificate') {
-      if (!['application/pdf', 'image/jpeg', 'image/png', 'image/webp'].includes(file.mimeType)) {
-        await fs.rm(originalPath, { force: true });
-        return json(res, 415, {
-          error: 'Automatic certificate redaction supports PDF, JPG, PNG and WEBP certificates.'
-        });
+      let publicMimeType = null;
+      if (category === 'certificate') {
+        if (!['application/pdf', 'image/jpeg', 'image/png', 'image/webp'].includes(file.mimeType)) {
+          await fs.rm(originalPath, { force: true });
+          return json(res, 415, { error: 'Automatic certificate redaction supports PDF, JPG, PNG and WEBP certificates.' });
+        }
+        const publicFilename = `${id}-public-${safeFileName(file.originalName).replace(/\.(pdf|jpe?g|png|webp)$/i, '')}${file.mimeType === 'application/pdf' ? '.pdf' : '.png'}`;
+        try {
+          const result = await generatePublicCopy(originalPath, file.mimeType, path.join(UPLOAD_DIR, publicFilename));
+          publicUrl = `/uploads/${publicFilename}`;
+          publicMimeType = result.mimeType;
+        } catch (redactionError) {
+          await fs.rm(originalPath, { force: true });
+          return json(res, 422, { error: `Could not automatically create a safe public copy: ${redactionError.message}` });
+        }
       }
-
-      const publicFilename =
-        `${id}-public-${safeFileName(file.originalName).replace(/\.(pdf|jpe?g|png|webp)$/i, '')}` +
-        `${file.mimeType === 'application/pdf' ? '.pdf' : '.png'}`;
-
-      try {
-        const result = await generatePublicCopy(
-          originalPath,
-          file.mimeType,
-          path.join(UPLOAD_DIR, publicFilename)
-        );
-
-        publicUrl = `/uploads/${publicFilename}`;
-        publicMimeType = result.mimeType;
-      } catch (redactionError) {
-        await fs.rm(originalPath, { force: true });
-        return json(res, 422, {
-          error: `Could not automatically create a safe public copy: ${redactionError.message}`
-        });
-      }
-    } else if (category === 'resume') {
-      if (file.mimeType !== 'application/pdf') {
-        await fs.rm(originalPath, { force: true });
-        return json(res, 415, {
-          error: 'Resume uploads must be PDF files.'
-        });
-      }
-
-      const publicFilename =
-        `${id}-public-${safeFileName(file.originalName).replace(/\.pdf$/i, '')}.pdf`;
-
-      const publicPath = path.join(UPLOAD_DIR, publicFilename);
-
-      try {
-        await fs.copyFile(originalPath, publicPath);
-        publicUrl = `/uploads/${publicFilename}`;
-        publicMimeType = 'application/pdf';
-      } catch (copyError) {
-        await fs.rm(originalPath, { force: true });
-        return json(res, 422, {
-          error: `Could not create public resume copy: ${copyError.message}`
-        });
-      }
-    }
-
       const doc = { id, title: fields.title?.trim() || file.originalName, issuer: fields.issuer?.trim() || '', date: fields.date?.trim() || '', category, originalName: file.originalName, mimeType: file.mimeType, size: file.buffer.length, url: `/api/admin/documents/${id}/original`, privateFilename: filename, publicUrl, publicMimeType, hasPublicVersion: Boolean(publicUrl), published: fields.published !== 'false', createdAt: new Date().toISOString() };
       const docs = await readDb(); docs.push(doc); await writeDb(docs);
       return json(res, 201, doc);
@@ -713,7 +527,7 @@ if (req.method === 'PUT' && url.pathname === '/api/about') {
             return fsSync.createReadStream(filePath).pipe(res);
           }
         } catch {
-          // File does not exist â€” continue to SPA fallback.
+          // File does not exist — continue to SPA fallback.
         }
 
         // React Router fallback:

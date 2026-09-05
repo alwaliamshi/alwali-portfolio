@@ -1,0 +1,19 @@
+{
+  "totalVisits": 14,
+  "uniqueVisitors": 2,
+  "todayVisits": 14,
+  "lastVisit": "2026-09-05T06:25:38.119Z",
+  "lastDate": "2026-09-05",
+  "pageViews": {
+    "/": 6,
+    "/admin": 6,
+    "/resume": 2
+  },
+  "dailyVisits": {
+    "2026-09-05": 14
+  },
+  "visitors": [
+    "e18056064d2789d8d6c721ea537d33ab0064db526c136fc19b2ca5b9a52e0c14",
+    "3e3fdd9aff167d6f86670227db588b412a375a6f3e15d45e78a5b769ed81302a"
+  ]
+}
