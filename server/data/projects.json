@@ -1,13 +1,9 @@
-﻿[
+[
   {
     "id": "marketpulse-ng",
     "title": "MarketPulse NG",
     "description": "MarketPulse NG is a market intelligence platform designed to make changing market prices in Nigeria easier to monitor, understand, and act upon. The project combines a modern web interface with structured data systems to transform fragmented market-price information into accessible insights for users. Developed as a 3MTT NextGen Showcase project, it demonstrates the practical application of frontend engineering, data systems, and user-centered design to a real-world Nigerian economic challenge. The project earned 3rd place in the 3MTT NextGen Knowledge Showcase.",
-    "tech": [
-      "React",
-      "Data Systems",
-      "UI/UX"
-    ],
+    "tech": ["React", "Data Systems", "UI/UX"],
     "featured": true,
     "icon": "chart",
     "url": "https://alwaliamshi.github.io/MarketPulse-NG/"
@@ -16,12 +12,7 @@
     "id": "click-counter",
     "title": "React Click Counter",
     "description": "React Click Counter is a focused frontend project built to demonstrate core React development concepts including components, state management, event handling, and dynamic UI updates. Although intentionally simple, the project represents practical application of fundamental React principles and provides a foundation for developing more complex interactive web applications.",
-    "tech": [
-      "React",
-      "JavaScript",
-      "CSS",
-      "UI/UX"
-    ],
+    "tech": ["React", "JavaScript", "CSS", "UI/UX"],
     "featured": false,
     "icon": "pointer",
     "url": "https://alwaliamshi.github.io/click-counter/"
@@ -30,14 +21,7 @@
     "id": "ai-transcription-pro",
     "title": "Pulse AI Transcription Pro",
     "description": "Pulse AI Transcription Pro is an AI-assisted audio transcription application designed to convert spoken content into searchable text. The system combines a modern React interface with a FastAPI backend and Whisper-based speech recognition to provide an integrated transcription workflow. The project demonstrates practical experience with AI-assisted development, API architecture, audio processing, speech-to-text technology, and full-stack application design, with support for local processing workflows.",
-    "tech": [
-      "React",
-      "FastAPI",
-      "Python",
-      "Whisper",
-      "Faster-Whisper",
-      "FFmpeg"
-    ],
+    "tech": ["React", "FastAPI", "Python", "Whisper", "Faster-Whisper", "FFmpeg"],
     "featured": true,
     "icon": "mic",
     "url": ""
@@ -46,12 +30,7 @@
     "id": "7e42da28-6c4b-4108-a236-8b074dc91b7f",
     "title": "SchoolPulse Yobe",
     "description": "SchoolPulse Yobe is an education-focused web application designed to organize and present information about schools across Yobe State through an accessible digital interface. The project explores how structured educational data, interactive visualization, and modern web technologies can improve access to school information and support education-focused decision-making. It includes an interactive Yobe geographic visualization and an administrative interface for managing the platform's content.",
-    "tech": [
-      "React",
-      "JavaScript",
-      "Data Visualization",
-      "UI/UX"
-    ],
+    "tech": ["React", "JavaScript", "Data Visualization", "UI/UX"],
     "featured": true,
     "iconUrl": null,
     "url": "https://schoolpulse-yobe.netlify.app/"
@@ -60,12 +39,7 @@
     "id": "51ca1f74-0463-46d5-b24b-0af1f3aab735",
     "title": "POS Transaction Web App",
     "description": "The POS Transaction Web App is a web-based transaction management system developed as a 3MTT Capstone Project. It provides a structured interface for recording, organizing, and monitoring point-of-sale transactions while demonstrating practical application of web development, data management, and user interface design. The project reflects the transition from learning programming concepts to building a functional solution around a real-world business workflow.",
-    "tech": [
-      "React",
-      "JavaScript",
-      "Data Management",
-      "UI/UX"
-    ],
+    "tech": ["React", "JavaScript", "Data Management", "UI/UX"],
     "featured": true,
     "iconUrl": null,
     "url": "https://pos-transaction-web-app.web.app/"
@@ -74,10 +48,7 @@
     "id": "7ab65a01-c669-49c9-a2dd-97e60bcd916a",
     "title": "Series Organizer",
     "description": "Series Organizer is a Python desktop application created to help users organize and manage series-based information through a simple graphical interface. Built with Tkinter, the project demonstrates foundational desktop application development, interface design, data organization, and event-driven programming. It represents an important stage in the progression from programming fundamentals toward building practical user-facing software.",
-    "tech": [
-      "Python",
-      "Tkinter"
-    ],
+    "tech": ["Python", "Tkinter"],
     "featured": true,
     "iconUrl": null,
     "url": ""
@@ -86,11 +57,7 @@
     "id": "8d3f54f0-54a4-43aa-adbc-a4019966153e",
     "title": "AIIM - Amshi Integrated Inquiry Model",
     "description": "The Amshi Integrated Inquiry Model (AIIM) is an educational framework developed to structure learning around inquiry, exploration, investigation, reflection, and meaningful application. It represents an effort to connect classroom practice with learner-centered problem solving and practical knowledge development. AIIM reflects the intersection of education, instructional design, and technology-driven approaches to improving how learners engage with complex ideas.",
-    "tech": [
-      "Instructional Design",
-      "Inquiry-Based Learning",
-      "Educational Technology"
-    ],
+    "tech": ["Instructional Design", "Inquiry-Based Learning", "Educational Technology"],
     "featured": true,
     "iconUrl": null,
     "url": ""
@@ -99,16 +66,7 @@
     "id": "553d5fea-bdca-4acb-8f82-2c04574eab27",
     "title": "Alwali Umara Amshi - Personal Portfolio",
     "description": "A full-stack personal portfolio platform designed to showcase projects, certificates, professional development, and technical work through a modern responsive interface. The platform includes an authenticated administrative dashboard for managing projects, certificates, documents, and site appearance, together with dynamic theme and wallpaper support. Built with React and Vite and integrated with a Node.js backend, the project demonstrates practical experience in frontend engineering, API integration, authentication, content management, responsive UI/UX, and deployment-oriented application development.",
-    "tech": [
-      "React",
-      "Vite",
-      "JavaScript",
-      "Node.js",
-      "REST API",
-      "React Router",
-      "CSS",
-      "Authentication"
-    ],
+    "tech": ["React", "Vite", "JavaScript", "Node.js", "REST API", "React Router", "CSS", "Authentication"],
     "featured": true,
     "iconUrl": null,
     "url": ""
