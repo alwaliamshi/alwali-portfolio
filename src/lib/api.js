@@ -1,6 +1,8 @@
 const API_URL = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
 
 export function apiUrl(path) {
+  if (!path) return API_URL;
+  if (/^https?:\/\//i.test(path)) return path;
   return `${API_URL}${path}`;
 }
 

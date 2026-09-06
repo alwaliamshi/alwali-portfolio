@@ -1,10 +1,11 @@
-﻿import http from 'node:http';
+import http from 'node:http';
 import fs from 'node:fs/promises';
 import fsSync from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { generatePublicCopy } from './redact.mjs';
+import { v2 as cloudinary } from 'cloudinary';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // Load server/.env without requiring dotenv at runtime.
@@ -29,6 +30,22 @@ const PORT = Number(process.env.PORT || 5000);
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'change-this-password';
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin';
 const MAX_FILE_SIZE = 10 * 1024 * 1024;
+
+const CLOUDINARY_ENABLED = Boolean(
+  process.env.CLOUDINARY_CLOUD_NAME &&
+  process.env.CLOUDINARY_API_KEY &&
+  process.env.CLOUDINARY_API_SECRET
+);
+
+if (CLOUDINARY_ENABLED) {
+  cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+    secure: true
+  });
+}
+
 const ALLOWED = new Map([
   ['application/pdf', 'pdf'],
   ['application/msword', 'doc'],
@@ -55,9 +72,9 @@ try { await fs.access(VISITORS_FILE); } catch {
 }
 try { await fs.access(PROJECTS_FILE); } catch {
   await fs.writeFile(PROJECTS_FILE, JSON.stringify([
-    { id: crypto.randomUUID(), title: 'MarketPulse NG', description: 'A decentralized market intelligence system tracking real-time market prices in Nigeria.', tech: ['React', 'Data Systems', 'UI/UX'], featured: true, icon: 'â–¥', url: '' },
-    { id: crypto.randomUUID(), title: 'Click Counter', description: 'A simple React mini project demonstrating state management.', tech: ['React', 'JavaScript'], featured: true, icon: 'â†¯', url: '' },
-    { id: crypto.randomUUID(), title: 'AI Transcription Pro', description: 'A transcription tool for converting audio to text using AI workflows.', tech: ['FastAPI', 'Python', 'AI'], featured: true, icon: 'â—‰', url: '' }
+    { id: crypto.randomUUID(), title: 'MarketPulse NG', description: 'A decentralized market intelligence system tracking real-time market prices in Nigeria.', tech: ['React', 'Data Systems', 'UI/UX'], featured: true, icon: '▥', url: '' },
+    { id: crypto.randomUUID(), title: 'Click Counter', description: 'A simple React mini project demonstrating state management.', tech: ['React', 'JavaScript'], featured: true, icon: '↯', url: '' },
+    { id: crypto.randomUUID(), title: 'AI Transcription Pro', description: 'A transcription tool for converting audio to text using AI workflows.', tech: ['FastAPI', 'Python', 'AI'], featured: true, icon: '◉', url: '' }
   ], null, 2));
 }
 
@@ -80,7 +97,7 @@ async function readAbout() {
   } catch {
     return {
       name: 'Alwali Umara Amshi',
-      role: 'Educator â€¢ Technology Builder â€¢ Community Leader â€¢ Innovator',
+      role: 'Educator • Technology Builder • Community Leader • Innovator',
       intro: 'I build practical digital solutions that connect education, technology, data, and community impact.',
       whoIAm: '',
       educationTeaching: '',
@@ -170,11 +187,136 @@ function safeFileName(name) {
 }
 
 
-async function readTheme() {
-  try { return JSON.parse(await fs.readFile(THEME_META, 'utf8')); } catch { return { url: null, updatedAt: null, originalName: null }; }
+function uploadWallpaperToCloudinary(buffer, originalName) {
+  return new Promise((resolve, reject) => {
+    const extension = path.extname(originalName || '').replace('.', '').toLowerCase() || 'jpg';
+    const publicId = `alwali-portfolio/theme/wallpaper-${Date.now()}`;
+
+    const stream = cloudinary.uploader.upload_stream(
+      {
+        folder: 'alwali-portfolio/theme',
+        public_id: publicId.split('/').pop(),
+        resource_type: 'image',
+        format: extension === 'jpg' ? 'jpg' : extension,
+        overwrite: false
+      },
+      (error, result) => {
+        if (error) return reject(error);
+        resolve({
+          url: result.secure_url,
+          publicId: result.public_id
+        });
+      }
+    );
+
+    stream.end(buffer);
+  });
 }
+
+async function deleteCloudinaryWallpaper(publicId) {
+  if (!publicId || !CLOUDINARY_ENABLED) return;
+
+  try {
+    await cloudinary.uploader.destroy(publicId, {
+      resource_type: 'image',
+      invalidate: true
+    });
+  } catch (error) {
+    console.error('Cloudinary wallpaper deletion failed:', error?.message || error);
+  }
+}
+
+async function recoverThemeFromCloudinary() {
+  if (!CLOUDINARY_ENABLED) return null;
+
+  try {
+    const result = await cloudinary.api.resources({
+      type: 'upload',
+      resource_type: 'image',
+      prefix: 'alwali-portfolio/theme',
+      max_results: 100
+    });
+
+
+    const resources = Array.isArray(result.resources)
+      ? result.resources.filter((resource) =>
+          String(resource.public_id || '').startsWith(
+            'alwali-portfolio/theme/wallpaper-'
+          )
+        )
+      : [];
+
+    if (!resources.length) return null;
+
+    // Wallpaper public IDs contain Date.now(), so the highest
+    // public ID is the newest wallpaper.
+    resources.sort((a, b) =>
+      String(b.public_id || '').localeCompare(String(a.public_id || ''))
+    );
+
+    const latest = resources[0];
+
+    if (!latest?.secure_url || !latest?.public_id) {
+      return null;
+    }
+
+    const recoveredTheme = {
+      url: latest.secure_url,
+      publicId: latest.public_id,
+      updatedAt: latest.created_at || new Date().toISOString(),
+      originalName: null,
+      mimeType: latest.format ? `image/${latest.format}` : null
+    };
+
+    await writeTheme(recoveredTheme);
+
+    console.log(
+      'Recovered wallpaper from Cloudinary:',
+      recoveredTheme.publicId
+    );
+
+    return recoveredTheme;
+  } catch (error) {
+    console.error(
+      'Cloudinary wallpaper recovery failed:',
+      error?.message || error
+    );
+
+    return null;
+  }
+}
+
+async function readTheme() {
+  try {
+    const theme = JSON.parse(
+      await fs.readFile(THEME_META, 'utf8')
+    );
+
+    if (theme?.url) {
+      return theme;
+    }
+
+    const recovered = await recoverThemeFromCloudinary();
+
+    return recovered || theme;
+  } catch {
+    const recovered = await recoverThemeFromCloudinary();
+
+    return recovered || {
+      url: null,
+      publicId: null,
+      updatedAt: null,
+      originalName: null,
+      mimeType: null
+    };
+  }
+}
+
 async function writeTheme(theme) {
-  await fs.writeFile(THEME_META, JSON.stringify(theme, null, 2));
+  await fs.writeFile(
+    THEME_META,
+    JSON.stringify(theme, null, 2)
+  );
 }
 
 const server = http.createServer(async (req, res) => {
@@ -320,51 +462,183 @@ const server = http.createServer(async (req, res) => {
 
 
     if (req.method === 'GET' && url.pathname === '/api/theme') {
-      const theme = await readTheme();
-      return json(res, 200, theme);
-    }
+  const theme = await readTheme();
+  return json(res, 200, theme);
+}
 
-    if (req.method === 'POST' && url.pathname === '/api/theme') {
-      if (!isAuthorized(req)) return json(res, 401, { error: 'Unauthorized' });
-      const body = await readBody(req, 12 * 1024 * 1024);
-      const { file } = parseMultipart(body, req.headers['content-type'] || '');
-      if (!file) return json(res, 400, { error: 'Please select a wallpaper image.' });
-      if (file.buffer.length > 10 * 1024 * 1024) return json(res, 413, { error: 'Maximum wallpaper size is 10 MB.' });
-      const allowed = new Map([['image/jpeg','jpg'], ['image/png','png'], ['image/webp','webp']]);
-      const ext = allowed.get(file.mimeType);
-      if (!ext) return json(res, 415, { error: 'Wallpaper must be JPG, PNG or WEBP.' });
-      const themeFilename = `${THEME_FILE}.${ext}`;
-      // Remove previous theme variants before saving the new one.
-      for (const candidate of ['jpg','png','webp']) await fs.rm(`${THEME_FILE}.${candidate}`, { force: true });
-      await fs.writeFile(themeFilename, file.buffer);
-      const theme = { url: `/api/theme/image`, updatedAt: new Date().toISOString(), originalName: file.originalName, mimeType: file.mimeType };
+if (req.method === 'POST' && url.pathname === '/api/theme') {
+  if (!isAuthorized(req)) return json(res, 401, { error: 'Unauthorized' });
+
+  if (!CLOUDINARY_ENABLED) {
+    return json(res, 503, {
+      error: 'Cloudinary is not configured on the server.'
+    });
+  }
+
+  const body = await readBody(req, 12 * 1024 * 1024);
+  const { file } = parseMultipart(body, req.headers['content-type'] || '');
+
+  if (!file) {
+    return json(res, 400, {
+      error: 'Please select a wallpaper image.'
+    });
+  }
+
+  if (file.buffer.length > MAX_FILE_SIZE) {
+    return json(res, 413, {
+      error: 'Maximum wallpaper size is 10 MB.'
+    });
+  }
+
+  const allowed = new Map([
+    ['image/jpeg', 'jpg'],
+    ['image/png', 'png'],
+    ['image/webp', 'webp']
+  ]);
+
+  const ext = allowed.get(file.mimeType);
+
+  if (!ext) {
+    return json(res, 415, {
+      error: 'Wallpaper must be JPG, PNG or WEBP.'
+    });
+  }
+
+  const previousTheme = await readTheme();
+  let uploaded = null;
+
+  try {
+    uploaded = await uploadWallpaperToCloudinary(
+      file.buffer,
+      file.originalName
+    );
+
+    const theme = {
+      url: uploaded.url,
+      publicId: uploaded.publicId,
+      updatedAt: new Date().toISOString(),
+      originalName: file.originalName,
+      mimeType: file.mimeType
+    };
+
+    try {
       await writeTheme(theme);
-      return json(res, 201, theme);
+    } catch (error) {
+      await deleteCloudinaryWallpaper(uploaded.publicId);
+      throw error;
     }
 
-    if (req.method === 'DELETE' && url.pathname === '/api/theme') {
-      if (!isAuthorized(req)) return json(res, 401, { error: 'Unauthorized' });
-      for (const candidate of ['jpg','png','webp']) await fs.rm(`${THEME_FILE}.${candidate}`, { force: true });
-      await writeTheme({ url: null, updatedAt: new Date().toISOString(), originalName: null });
-      return json(res, 200, { success: true });
+    // Remove the previous Cloudinary wallpaper only after the new one
+    // has been uploaded and the new metadata has been saved.
+    if (
+      previousTheme.publicId &&
+      previousTheme.publicId !== uploaded.publicId
+    ) {
+      await deleteCloudinaryWallpaper(previousTheme.publicId);
     }
 
-    if (req.method === 'GET' && url.pathname === '/api/theme/image') {
-      const theme = await readTheme();
-      if (!theme.url) return json(res, 404, { error: 'No wallpaper configured.' });
-      const ext = path.extname(theme.originalName || '').toLowerCase();
-      const candidates = ['jpg','png','webp'];
-      let filePath = null;
-      for (const candidate of candidates) {
-        const candidatePath = `${THEME_FILE}.${candidate}`;
-        try { await fs.access(candidatePath); filePath = candidatePath; break; } catch {}
-      }
-      if (!filePath) return json(res, 404, { error: 'Wallpaper file not found.' });
-      const mime = ext === '.png' ? 'image/png' : ext === '.webp' ? 'image/webp' : 'image/jpeg';
-      const stat = await fs.stat(filePath);
-      res.writeHead(200, { 'Content-Type': mime, 'Content-Length': stat.size, 'Cache-Control': 'no-store, must-revalidate' });
-      return fsSync.createReadStream(filePath).pipe(res);
+    // Remove any old local wallpaper files.
+    for (const candidate of ['jpg', 'png', 'webp']) {
+      await fs.rm(`${THEME_FILE}.${candidate}`, { force: true });
     }
+
+    return json(res, 201, theme);
+  } catch (error) {
+    console.error(
+      'Cloudinary wallpaper upload failed:',
+      error?.message || error
+    );
+
+    return json(res, 502, {
+      error: 'Could not upload wallpaper to Cloudinary.'
+    });
+  }
+}
+
+if (req.method === 'DELETE' && url.pathname === '/api/theme') {
+  if (!isAuthorized(req)) return json(res, 401, { error: 'Unauthorized' });
+
+  const theme = await readTheme();
+
+  if (theme.publicId) {
+    await deleteCloudinaryWallpaper(theme.publicId);
+  }
+
+  // Remove legacy local wallpaper files as well.
+  for (const candidate of ['jpg', 'png', 'webp']) {
+    await fs.rm(`${THEME_FILE}.${candidate}`, { force: true });
+  }
+
+  const clearedTheme = {
+    url: null,
+    publicId: null,
+    updatedAt: new Date().toISOString(),
+    originalName: null,
+    mimeType: null
+  };
+
+  await writeTheme(clearedTheme);
+
+  return json(res, 200, { success: true });
+}
+
+if (req.method === 'GET' && url.pathname === '/api/theme/image') {
+  const theme = await readTheme();
+
+  if (!theme.url) {
+    return json(res, 404, {
+      error: 'No wallpaper configured.'
+    });
+  }
+
+  // New Cloudinary wallpapers use an absolute HTTPS URL.
+  // Keep this endpoint for compatibility with older local wallpapers.
+  if (/^https?:\/\//i.test(theme.url)) {
+    res.writeHead(302, {
+      Location: theme.url,
+      'Cache-Control': 'no-store'
+    });
+    return res.end();
+  }
+
+  // Legacy local wallpaper fallback.
+  const ext = path.extname(theme.originalName || '').toLowerCase();
+  const candidates = ['jpg', 'png', 'webp'];
+  let filePath = null;
+
+  for (const candidate of candidates) {
+    const candidatePath = `${THEME_FILE}.${candidate}`;
+
+    try {
+      await fs.access(candidatePath);
+      filePath = candidatePath;
+      break;
+    } catch {}
+  }
+
+  if (!filePath) {
+    return json(res, 404, {
+      error: 'Wallpaper file not found.'
+    });
+  }
+
+  const mime =
+    ext === '.png'
+      ? 'image/png'
+      : ext === '.webp'
+        ? 'image/webp'
+        : 'image/jpeg';
+
+  const stat = await fs.stat(filePath);
+
+  res.writeHead(200, {
+    'Content-Type': mime,
+    'Content-Length': stat.size,
+    'Cache-Control': 'no-store, must-revalidate'
+  });
+
+  return fsSync.createReadStream(filePath).pipe(res);
+}
 
 
     if (req.method === 'POST' && url.pathname === '/api/auth/login') {
@@ -713,7 +987,7 @@ if (req.method === 'PUT' && url.pathname === '/api/about') {
             return fsSync.createReadStream(filePath).pipe(res);
           }
         } catch {
-          // File does not exist â€” continue to SPA fallback.
+          // File does not exist — continue to SPA fallback.
         }
 
         // React Router fallback:

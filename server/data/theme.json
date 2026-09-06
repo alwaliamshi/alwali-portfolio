@@ -1,6 +1,7 @@
 {
-  "url": "/api/theme/image",
-  "updatedAt": "2026-09-03T01:59:07.689Z",
-  "originalName": "Portfolio theme.jpeg",
-  "mimeType": "image/jpeg"
+  "url": "https://res.cloudinary.com/rlavfeow/image/upload/v1788683882/alwali-portfolio/theme/wallpaper-1788683726185.jpg",
+  "publicId": "alwali-portfolio/theme/wallpaper-1788683726185",
+  "updatedAt": "2026-09-06T08:38:02Z",
+  "originalName": null,
+  "mimeType": "image/jpg"
 }
