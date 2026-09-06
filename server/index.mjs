@@ -213,6 +213,37 @@ function uploadWallpaperToCloudinary(buffer, originalName) {
   });
 }
 
+async function uploadPublicDocumentToCloudinary(buffer, mimeType, publicId) {
+  if (!CLOUDINARY_ENABLED) {
+    throw new Error('Cloudinary is not configured.');
+  }
+
+  const resourceType = mimeType === 'application/pdf' ? 'raw' : 'image';
+
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      {
+        folder: 'alwali-portfolio/certificates',
+        public_id: publicId,
+        resource_type: resourceType,
+        overwrite: true
+      },
+      (error, result) => {
+        if (error) return reject(error);
+
+        resolve({
+          url: result.secure_url,
+          publicId: result.public_id,
+          resourceType,
+          mimeType
+        });
+      }
+    );
+
+    stream.end(buffer);
+  });
+}
+
 async function deleteCloudinaryWallpaper(publicId) {
   if (!publicId || !CLOUDINARY_ENABLED) return;
 
@@ -769,6 +800,8 @@ if (req.method === 'GET' && url.pathname === '/api/theme/image') {
       
       let publicUrl = null;
     let publicMimeType = null;
+    let publicId = null;
+    let publicResourceType = null;
 
     if (category === 'certificate') {
       if (!['application/pdf', 'image/jpeg', 'image/png', 'image/webp'].includes(file.mimeType)) {
@@ -779,22 +812,36 @@ if (req.method === 'GET' && url.pathname === '/api/theme/image') {
       }
 
       const publicFilename =
-        `${id}-public-${safeFileName(file.originalName).replace(/\.(pdf|jpe?g|png|webp)$/i, '')}` +
+        `${id}-public-${safeFileName(file.originalName).replace(/\\.(pdf|jpe?g|png|webp)$/i, '')}` +
         `${file.mimeType === 'application/pdf' ? '.pdf' : '.png'}`;
+
+      const publicPath = path.join(UPLOAD_DIR, publicFilename);
 
       try {
         const result = await generatePublicCopy(
           originalPath,
           file.mimeType,
-          path.join(UPLOAD_DIR, publicFilename)
+          publicPath
         );
 
-        publicUrl = `/uploads/${publicFilename}`;
+        const publicBuffer = await fs.readFile(publicPath);
+
+        const cloudinaryResult = await uploadPublicDocumentToCloudinary(
+          publicBuffer,
+          result.mimeType,
+          `${id}-public`
+        );
+
+        publicUrl = cloudinaryResult.url;
         publicMimeType = result.mimeType;
+        publicId = cloudinaryResult.publicId;
+        publicResourceType = cloudinaryResult.resourceType;
       } catch (redactionError) {
         await fs.rm(originalPath, { force: true });
+        await fs.rm(publicPath, { force: true });
+
         return json(res, 422, {
-          error: `Could not automatically create a safe public copy: ${redactionError.message}`
+          error: `Could not automatically create or upload a safe public copy: ${redactionError.message}`
         });
       }
     } else if (category === 'resume') {
@@ -822,7 +869,7 @@ if (req.method === 'GET' && url.pathname === '/api/theme/image') {
       }
     }
 
-      const doc = { id, title: fields.title?.trim() || file.originalName, issuer: fields.issuer?.trim() || '', date: fields.date?.trim() || '', category, originalName: file.originalName, mimeType: file.mimeType, size: file.buffer.length, url: `/api/admin/documents/${id}/original`, privateFilename: filename, publicUrl, publicMimeType, hasPublicVersion: Boolean(publicUrl), published: fields.published !== 'false', createdAt: new Date().toISOString() };
+      const doc = { id, title: fields.title?.trim() || file.originalName, issuer: fields.issuer?.trim() || '', date: fields.date?.trim() || '', category, originalName: file.originalName, mimeType: file.mimeType, size: file.buffer.length, url: `/api/admin/documents/${id}/original`, privateFilename: filename, publicUrl, publicMimeType, publicId, publicResourceType, hasPublicVersion: Boolean(publicUrl), published: fields.published !== 'false', createdAt: new Date().toISOString() };
       const docs = await readDb(); docs.push(doc); await writeDb(docs);
       return json(res, 201, doc);
     }
@@ -850,7 +897,24 @@ if (req.method === 'GET' && url.pathname === '/api/theme/image') {
       const doc = docs.find((d) => d.id === id);
       if (!doc) return json(res, 404, { error: 'Document not found.' });
       await fs.rm(path.join(UPLOAD_DIR, path.basename(doc.privateFilename || doc.url)), { force: true });
-      if (doc.publicUrl && doc.publicUrl !== doc.url) await fs.rm(path.join(UPLOAD_DIR, path.basename(doc.publicUrl)), { force: true });
+      if (doc.publicUrl && doc.publicUrl.startsWith('/uploads/')) {
+        await fs.rm(path.join(UPLOAD_DIR, path.basename(doc.publicUrl)), { force: true });
+      }
+
+      if (doc.publicId && CLOUDINARY_ENABLED) {
+        try {
+          await cloudinary.uploader.destroy(doc.publicId, {
+            resource_type: doc.publicResourceType || 'image',
+            invalidate: true
+          });
+        } catch (cloudinaryError) {
+          console.error(
+            'Cloudinary certificate deletion failed:',
+            cloudinaryError?.message || cloudinaryError
+          );
+        }
+      }
+
       await writeDb(docs.filter((d) => d.id !== id));
       return json(res, 200, { success: true });
     }

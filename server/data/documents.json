@@ -10,11 +10,13 @@
     "size": 80124,
     "url": "/api/admin/documents/1966fd53-28e6-4e9e-b683-948cbf8538b8/original",
     "privateFilename": "1966fd53-28e6-4e9e-b683-948cbf8538b8-1MT_HP_-_Mentorship_cert._Alwali_Umara_Amshi.pdf",
-    "publicUrl": "/uploads/1966fd53-28e6-4e9e-b683-948cbf8538b8-public-1MT_HP_-_Mentorship_cert._Alwali_Umara_Amshi.pdf",
+    "publicUrl": "https://res.cloudinary.com/rlavfeow/raw/upload/v1788719052/alwali-portfolio/certificates/1966fd53-28e6-4e9e-b683-948cbf8538b8-public",
     "publicMimeType": "application/pdf",
     "hasPublicVersion": true,
     "published": true,
-    "createdAt": "2026-09-03T04:53:53.748Z"
+    "createdAt": "2026-09-03T04:53:53.748Z",
+    "publicId": "alwali-portfolio/certificates/1966fd53-28e6-4e9e-b683-948cbf8538b8-public",
+    "publicResourceType": "raw"
   },
   {
     "id": "120cd11c-0069-428e-9430-4db1b7b60345",
@@ -27,11 +29,13 @@
     "size": 771117,
     "url": "/api/admin/documents/120cd11c-0069-428e-9430-4db1b7b60345/original",
     "privateFilename": "120cd11c-0069-428e-9430-4db1b7b60345-AGILE_cert.pdf",
-    "publicUrl": "/uploads/120cd11c-0069-428e-9430-4db1b7b60345-public-AGILE_cert.pdf",
+    "publicUrl": "https://res.cloudinary.com/rlavfeow/raw/upload/v1788719269/alwali-portfolio/certificates/120cd11c-0069-428e-9430-4db1b7b60345-public",
     "publicMimeType": "application/pdf",
     "hasPublicVersion": true,
     "published": true,
-    "createdAt": "2026-09-03T04:56:39.923Z"
+    "createdAt": "2026-09-03T04:56:39.923Z",
+    "publicId": "alwali-portfolio/certificates/120cd11c-0069-428e-9430-4db1b7b60345-public",
+    "publicResourceType": "raw"
   },
   {
     "id": "e187e6d3-6971-407d-b338-cb2eea29d40c",
@@ -44,11 +48,13 @@
     "size": 771117,
     "url": "/api/admin/documents/e187e6d3-6971-407d-b338-cb2eea29d40c/original",
     "privateFilename": "e187e6d3-6971-407d-b338-cb2eea29d40c-AGILE_cert.pdf",
-    "publicUrl": "/uploads/e187e6d3-6971-407d-b338-cb2eea29d40c-public-AGILE_cert.pdf",
+    "publicUrl": "https://res.cloudinary.com/rlavfeow/raw/upload/v1788719680/alwali-portfolio/certificates/e187e6d3-6971-407d-b338-cb2eea29d40c-public",
     "publicMimeType": "application/pdf",
     "hasPublicVersion": true,
     "published": true,
-    "createdAt": "2026-09-03T05:01:37.594Z"
+    "createdAt": "2026-09-03T05:01:37.594Z",
+    "publicId": "alwali-portfolio/certificates/e187e6d3-6971-407d-b338-cb2eea29d40c-public",
+    "publicResourceType": "raw"
   },
   {
     "id": "c0095395-9bb4-4a0f-a4ba-86963f4ae4b9",
@@ -61,11 +67,13 @@
     "size": 4387690,
     "url": "/api/admin/documents/c0095395-9bb4-4a0f-a4ba-86963f4ae4b9/original",
     "privateFilename": "c0095395-9bb4-4a0f-a4ba-86963f4ae4b9-AI_basics_Certificate.pdf",
-    "publicUrl": "/uploads/c0095395-9bb4-4a0f-a4ba-86963f4ae4b9-public-AI_basics_Certificate.pdf",
+    "publicUrl": "https://res.cloudinary.com/rlavfeow/raw/upload/v1788719681/alwali-portfolio/certificates/c0095395-9bb4-4a0f-a4ba-86963f4ae4b9-public",
     "publicMimeType": "application/pdf",
     "hasPublicVersion": true,
     "published": true,
-    "createdAt": "2026-09-03T05:09:18.685Z"
+    "createdAt": "2026-09-03T05:09:18.685Z",
+    "publicId": "alwali-portfolio/certificates/c0095395-9bb4-4a0f-a4ba-86963f4ae4b9-public",
+    "publicResourceType": "raw"
   },
   {
     "id": "2d4711ec-a784-4f26-ae5c-4bd4ba1422e0",
@@ -78,11 +86,13 @@
     "size": 4387606,
     "url": "/api/admin/documents/2d4711ec-a784-4f26-ae5c-4bd4ba1422e0/original",
     "privateFilename": "2d4711ec-a784-4f26-ae5c-4bd4ba1422e0-AI_for_all_Certificate.pdf",
-    "publicUrl": "/uploads/2d4711ec-a784-4f26-ae5c-4bd4ba1422e0-public-AI_for_all_Certificate.pdf",
+    "publicUrl": "https://res.cloudinary.com/rlavfeow/raw/upload/v1788719683/alwali-portfolio/certificates/2d4711ec-a784-4f26-ae5c-4bd4ba1422e0-public",
     "publicMimeType": "application/pdf",
     "hasPublicVersion": true,
     "published": true,
-    "createdAt": "2026-09-03T05:14:10.249Z"
+    "createdAt": "2026-09-03T05:14:10.249Z",
+    "publicId": "alwali-portfolio/certificates/2d4711ec-a784-4f26-ae5c-4bd4ba1422e0-public",
+    "publicResourceType": "raw"
   },
   {
     "id": "85f96a18-622e-43db-a738-88f372ad2049",
@@ -95,11 +105,13 @@
     "size": 4387606,
     "url": "/api/admin/documents/85f96a18-622e-43db-a738-88f372ad2049/original",
     "privateFilename": "85f96a18-622e-43db-a738-88f372ad2049-AI_for_all_Certificate.pdf",
-    "publicUrl": "/uploads/85f96a18-622e-43db-a738-88f372ad2049-public-AI_for_all_Certificate.pdf",
+    "publicUrl": "https://res.cloudinary.com/rlavfeow/raw/upload/v1788719686/alwali-portfolio/certificates/85f96a18-622e-43db-a738-88f372ad2049-public",
     "publicMimeType": "application/pdf",
     "hasPublicVersion": true,
     "published": true,
-    "createdAt": "2026-09-03T05:17:03.216Z"
+    "createdAt": "2026-09-03T05:17:03.216Z",
+    "publicId": "alwali-portfolio/certificates/85f96a18-622e-43db-a738-88f372ad2049-public",
+    "publicResourceType": "raw"
   },
   {
     "id": "5ff0f86f-1f3b-4d3a-a1b8-84ed942caf6e",
@@ -112,11 +124,13 @@
     "size": 237923,
     "url": "/api/admin/documents/5ff0f86f-1f3b-4d3a-a1b8-84ed942caf6e/original",
     "privateFilename": "5ff0f86f-1f3b-4d3a-a1b8-84ed942caf6e-Alwali_Umara_Amshi_-_1MT_Blackbelt_Cert..jpg",
-    "publicUrl": "/uploads/5ff0f86f-1f3b-4d3a-a1b8-84ed942caf6e-public-Alwali_Umara_Amshi_-_1MT_Blackbelt_Cert..png",
+    "publicUrl": "https://res.cloudinary.com/rlavfeow/image/upload/v1788719688/alwali-portfolio/certificates/5ff0f86f-1f3b-4d3a-a1b8-84ed942caf6e-public.jpg",
     "publicMimeType": "image/png",
     "hasPublicVersion": true,
     "published": true,
-    "createdAt": "2026-09-03T05:19:07.618Z"
+    "createdAt": "2026-09-03T05:19:07.618Z",
+    "publicId": "alwali-portfolio/certificates/5ff0f86f-1f3b-4d3a-a1b8-84ed942caf6e-public",
+    "publicResourceType": "image"
   },
   {
     "id": "73823701-1f2a-4b74-8df6-3bff9ffea932",
@@ -129,11 +143,13 @@
     "size": 127503,
     "url": "/api/admin/documents/73823701-1f2a-4b74-8df6-3bff9ffea932/original",
     "privateFilename": "73823701-1f2a-4b74-8df6-3bff9ffea932-Alwali_Umara_Amshi_-_Happy_Teacher_Philosophy_Cert.pdf",
-    "publicUrl": "/uploads/73823701-1f2a-4b74-8df6-3bff9ffea932-public-Alwali_Umara_Amshi_-_Happy_Teacher_Philosophy_Cert.pdf",
+    "publicUrl": "https://res.cloudinary.com/rlavfeow/raw/upload/v1788719689/alwali-portfolio/certificates/73823701-1f2a-4b74-8df6-3bff9ffea932-public",
     "publicMimeType": "application/pdf",
     "hasPublicVersion": true,
     "published": true,
-    "createdAt": "2026-09-03T05:20:58.391Z"
+    "createdAt": "2026-09-03T05:20:58.391Z",
+    "publicId": "alwali-portfolio/certificates/73823701-1f2a-4b74-8df6-3bff9ffea932-public",
+    "publicResourceType": "raw"
   },
   {
     "id": "37f6f44b-7df7-4050-a3ca-e43a03526b80",
@@ -146,11 +162,13 @@
     "size": 213363,
     "url": "/api/admin/documents/37f6f44b-7df7-4050-a3ca-e43a03526b80/original",
     "privateFilename": "37f6f44b-7df7-4050-a3ca-e43a03526b80-Alwali_Umara_Amshi_1MT_AI_for_Educators_Cert_-_2025-05-29.pdf",
-    "publicUrl": "/uploads/37f6f44b-7df7-4050-a3ca-e43a03526b80-public-Alwali_Umara_Amshi_1MT_AI_for_Educators_Cert_-_2025-05-29.pdf",
+    "publicUrl": "https://res.cloudinary.com/rlavfeow/raw/upload/v1788719691/alwali-portfolio/certificates/37f6f44b-7df7-4050-a3ca-e43a03526b80-public",
     "publicMimeType": "application/pdf",
     "hasPublicVersion": true,
     "published": true,
-    "createdAt": "2026-09-03T05:23:36.356Z"
+    "createdAt": "2026-09-03T05:23:36.356Z",
+    "publicId": "alwali-portfolio/certificates/37f6f44b-7df7-4050-a3ca-e43a03526b80-public",
+    "publicResourceType": "raw"
   },
   {
     "id": "2991cf7b-6cb0-4710-a0d5-aeb0212d0f06",
@@ -163,11 +181,13 @@
     "size": 79194,
     "url": "/api/admin/documents/2991cf7b-6cb0-4710-a0d5-aeb0212d0f06/original",
     "privateFilename": "2991cf7b-6cb0-4710-a0d5-aeb0212d0f06-Alwali_Umara_Amshi_1MT_Girl_Rising_Cert_-_2024-08-03.pdf",
-    "publicUrl": "/uploads/2991cf7b-6cb0-4710-a0d5-aeb0212d0f06-public-Alwali_Umara_Amshi_1MT_Girl_Rising_Cert_-_2024-08-03.pdf",
+    "publicUrl": "https://res.cloudinary.com/rlavfeow/raw/upload/v1788719692/alwali-portfolio/certificates/2991cf7b-6cb0-4710-a0d5-aeb0212d0f06-public",
     "publicMimeType": "application/pdf",
     "hasPublicVersion": true,
     "published": true,
-    "createdAt": "2026-09-03T05:25:49.476Z"
+    "createdAt": "2026-09-03T05:25:49.476Z",
+    "publicId": "alwali-portfolio/certificates/2991cf7b-6cb0-4710-a0d5-aeb0212d0f06-public",
+    "publicResourceType": "raw"
   },
   {
     "id": "315c911a-aede-4dd6-8bf5-1b6ae7a5c74d",
@@ -180,11 +200,13 @@
     "size": 216754,
     "url": "/api/admin/documents/315c911a-aede-4dd6-8bf5-1b6ae7a5c74d/original",
     "privateFilename": "315c911a-aede-4dd6-8bf5-1b6ae7a5c74d-Alwali_Umara_Amshi_DYGL_cert_-_Future_of_Work_Career_Readiness_Bootcamp.pdf",
-    "publicUrl": "/uploads/315c911a-aede-4dd6-8bf5-1b6ae7a5c74d-public-Alwali_Umara_Amshi_DYGL_cert_-_Future_of_Work_Career_Readiness_Bootcamp.pdf",
+    "publicUrl": "https://res.cloudinary.com/rlavfeow/raw/upload/v1788719693/alwali-portfolio/certificates/315c911a-aede-4dd6-8bf5-1b6ae7a5c74d-public",
     "publicMimeType": "application/pdf",
     "hasPublicVersion": true,
     "published": true,
-    "createdAt": "2026-09-03T05:28:44.931Z"
+    "createdAt": "2026-09-03T05:28:44.931Z",
+    "publicId": "alwali-portfolio/certificates/315c911a-aede-4dd6-8bf5-1b6ae7a5c74d-public",
+    "publicResourceType": "raw"
   },
   {
     "id": "ef446300-65cd-4422-bc83-504bf1896e91",
@@ -197,11 +219,13 @@
     "size": 526176,
     "url": "/api/admin/documents/ef446300-65cd-4422-bc83-504bf1896e91/original",
     "privateFilename": "ef446300-65cd-4422-bc83-504bf1896e91-ASSEP_In-person_Training_I.pdf",
-    "publicUrl": "/uploads/ef446300-65cd-4422-bc83-504bf1896e91-public-ASSEP_In-person_Training_I.pdf",
+    "publicUrl": "https://res.cloudinary.com/rlavfeow/raw/upload/v1788719697/alwali-portfolio/certificates/ef446300-65cd-4422-bc83-504bf1896e91-public",
     "publicMimeType": "application/pdf",
     "hasPublicVersion": true,
     "published": true,
-    "createdAt": "2026-09-03T05:31:50.868Z"
+    "createdAt": "2026-09-03T05:31:50.868Z",
+    "publicId": "alwali-portfolio/certificates/ef446300-65cd-4422-bc83-504bf1896e91-public",
+    "publicResourceType": "raw"
   },
   {
     "id": "22415ac8-154e-4674-97c6-e7d7107cbec9",
@@ -214,11 +238,13 @@
     "size": 440284,
     "url": "/api/admin/documents/22415ac8-154e-4674-97c6-e7d7107cbec9/original",
     "privateFilename": "22415ac8-154e-4674-97c6-e7d7107cbec9-ASSEP_2025_Cert._of_completion.pdf",
-    "publicUrl": "/uploads/22415ac8-154e-4674-97c6-e7d7107cbec9-public-ASSEP_2025_Cert._of_completion.pdf",
+    "publicUrl": "https://res.cloudinary.com/rlavfeow/raw/upload/v1788719706/alwali-portfolio/certificates/22415ac8-154e-4674-97c6-e7d7107cbec9-public",
     "publicMimeType": "application/pdf",
     "hasPublicVersion": true,
     "published": true,
-    "createdAt": "2026-09-03T05:33:22.497Z"
+    "createdAt": "2026-09-03T05:33:22.497Z",
+    "publicId": "alwali-portfolio/certificates/22415ac8-154e-4674-97c6-e7d7107cbec9-public",
+    "publicResourceType": "raw"
   },
   {
     "id": "7e4a3be5-9efb-4e1e-a98f-ed9cff737ec6",
@@ -231,11 +257,13 @@
     "size": 469358,
     "url": "/api/admin/documents/7e4a3be5-9efb-4e1e-a98f-ed9cff737ec6/original",
     "privateFilename": "7e4a3be5-9efb-4e1e-a98f-ed9cff737ec6-ASSEP_Cert_of_Excellence.pdf",
-    "publicUrl": "/uploads/7e4a3be5-9efb-4e1e-a98f-ed9cff737ec6-public-ASSEP_Cert_of_Excellence.pdf",
+    "publicUrl": "https://res.cloudinary.com/rlavfeow/raw/upload/v1788719712/alwali-portfolio/certificates/7e4a3be5-9efb-4e1e-a98f-ed9cff737ec6-public",
     "publicMimeType": "application/pdf",
     "hasPublicVersion": true,
     "published": true,
-    "createdAt": "2026-09-03T05:35:03.630Z"
+    "createdAt": "2026-09-03T05:35:03.630Z",
+    "publicId": "alwali-portfolio/certificates/7e4a3be5-9efb-4e1e-a98f-ed9cff737ec6-public",
+    "publicResourceType": "raw"
   },
   {
     "id": "0dc70b1e-387b-4c48-92ab-d5eec101ce1e",
@@ -248,11 +276,13 @@
     "size": 444829,
     "url": "/api/admin/documents/0dc70b1e-387b-4c48-92ab-d5eec101ce1e/original",
     "privateFilename": "0dc70b1e-387b-4c48-92ab-d5eec101ce1e-Certified_Disaster_Recovery_Professional__CDRP_.jpg",
-    "publicUrl": "/uploads/0dc70b1e-387b-4c48-92ab-d5eec101ce1e-public-Certified_Disaster_Recovery_Professional__CDRP_.png",
+    "publicUrl": "https://res.cloudinary.com/rlavfeow/image/upload/v1788719281/alwali-portfolio/certificates/0dc70b1e-387b-4c48-92ab-d5eec101ce1e-public.jpg",
     "publicMimeType": "image/png",
     "hasPublicVersion": true,
     "published": true,
-    "createdAt": "2026-09-03T05:37:18.851Z"
+    "createdAt": "2026-09-03T05:37:18.851Z",
+    "publicId": "alwali-portfolio/certificates/0dc70b1e-387b-4c48-92ab-d5eec101ce1e-public",
+    "publicResourceType": "image"
   },
   {
     "id": "c87936ee-e181-486a-a471-33e9615090d8",
@@ -265,11 +295,13 @@
     "size": 580599,
     "url": "/api/admin/documents/c87936ee-e181-486a-a471-33e9615090d8/original",
     "privateFilename": "c87936ee-e181-486a-a471-33e9615090d8-Certified_Emergency_and_Ambulance_Care_Assistant_-_Alwali.pdf",
-    "publicUrl": "/uploads/c87936ee-e181-486a-a471-33e9615090d8-public-Certified_Emergency_and_Ambulance_Care_Assistant_-_Alwali.pdf",
+    "publicUrl": "https://res.cloudinary.com/rlavfeow/raw/upload/v1788719289/alwali-portfolio/certificates/c87936ee-e181-486a-a471-33e9615090d8-public",
     "publicMimeType": "application/pdf",
     "hasPublicVersion": true,
     "published": true,
-    "createdAt": "2026-09-03T05:40:19.136Z"
+    "createdAt": "2026-09-03T05:40:19.136Z",
+    "publicId": "alwali-portfolio/certificates/c87936ee-e181-486a-a471-33e9615090d8-public",
+    "publicResourceType": "raw"
   },
   {
     "id": "1548e475-9d9c-4332-bad5-9a7b8ca06ebb",
@@ -282,11 +314,13 @@
     "size": 580311,
     "url": "/api/admin/documents/1548e475-9d9c-4332-bad5-9a7b8ca06ebb/original",
     "privateFilename": "1548e475-9d9c-4332-bad5-9a7b8ca06ebb-Certified_Monitoring_and_Evaluation_Officer_Cert.pdf",
-    "publicUrl": "/uploads/1548e475-9d9c-4332-bad5-9a7b8ca06ebb-public-Certified_Monitoring_and_Evaluation_Officer_Cert.pdf",
+    "publicUrl": "https://res.cloudinary.com/rlavfeow/raw/upload/v1788719294/alwali-portfolio/certificates/1548e475-9d9c-4332-bad5-9a7b8ca06ebb-public",
     "publicMimeType": "application/pdf",
     "hasPublicVersion": true,
     "published": true,
-    "createdAt": "2026-09-03T05:41:18.378Z"
+    "createdAt": "2026-09-03T05:41:18.378Z",
+    "publicId": "alwali-portfolio/certificates/1548e475-9d9c-4332-bad5-9a7b8ca06ebb-public",
+    "publicResourceType": "raw"
   },
   {
     "id": "d5129531-a41a-43e1-9d2e-69b84a18c777",
@@ -299,11 +333,13 @@
     "size": 4389237,
     "url": "/api/admin/documents/d5129531-a41a-43e1-9d2e-69b84a18c777/original",
     "privateFilename": "d5129531-a41a-43e1-9d2e-69b84a18c777-Collaborating_With_Microsoft_365_Certificate.pdf",
-    "publicUrl": "/uploads/d5129531-a41a-43e1-9d2e-69b84a18c777-public-Collaborating_With_Microsoft_365_Certificate.pdf",
+    "publicUrl": "https://res.cloudinary.com/rlavfeow/raw/upload/v1788719296/alwali-portfolio/certificates/d5129531-a41a-43e1-9d2e-69b84a18c777-public",
     "publicMimeType": "application/pdf",
     "hasPublicVersion": true,
     "published": true,
-    "createdAt": "2026-09-03T05:46:08.419Z"
+    "createdAt": "2026-09-03T05:46:08.419Z",
+    "publicId": "alwali-portfolio/certificates/d5129531-a41a-43e1-9d2e-69b84a18c777-public",
+    "publicResourceType": "raw"
   },
   {
     "id": "4d3d836d-edfc-42cf-a500-0835f9ad042c",
@@ -316,11 +352,13 @@
     "size": 4389644,
     "url": "/api/admin/documents/4d3d836d-edfc-42cf-a500-0835f9ad042c/original",
     "privateFilename": "4d3d836d-edfc-42cf-a500-0835f9ad042c-Digital_Essentials__Top_Apps_a_Certificate.pdf",
-    "publicUrl": "/uploads/4d3d836d-edfc-42cf-a500-0835f9ad042c-public-Digital_Essentials__Top_Apps_a_Certificate.pdf",
+    "publicUrl": "https://res.cloudinary.com/rlavfeow/raw/upload/v1788719299/alwali-portfolio/certificates/4d3d836d-edfc-42cf-a500-0835f9ad042c-public",
     "publicMimeType": "application/pdf",
     "hasPublicVersion": true,
     "published": true,
-    "createdAt": "2026-09-03T05:47:31.755Z"
+    "createdAt": "2026-09-03T05:47:31.755Z",
+    "publicId": "alwali-portfolio/certificates/4d3d836d-edfc-42cf-a500-0835f9ad042c-public",
+    "publicResourceType": "raw"
   },
   {
     "id": "58773ac0-4fe2-4f43-aa19-9df3013eb9fa",
@@ -333,11 +371,13 @@
     "size": 4388213,
     "url": "/api/admin/documents/58773ac0-4fe2-4f43-aa19-9df3013eb9fa/original",
     "privateFilename": "58773ac0-4fe2-4f43-aa19-9df3013eb9fa-Generative_AI__Certificate.pdf",
-    "publicUrl": "/uploads/58773ac0-4fe2-4f43-aa19-9df3013eb9fa-public-Generative_AI__Certificate.pdf",
+    "publicUrl": "https://res.cloudinary.com/rlavfeow/raw/upload/v1788719301/alwali-portfolio/certificates/58773ac0-4fe2-4f43-aa19-9df3013eb9fa-public",
     "publicMimeType": "application/pdf",
     "hasPublicVersion": true,
     "published": true,
-    "createdAt": "2026-09-03T20:14:49.712Z"
+    "createdAt": "2026-09-03T20:14:49.712Z",
+    "publicId": "alwali-portfolio/certificates/58773ac0-4fe2-4f43-aa19-9df3013eb9fa-public",
+    "publicResourceType": "raw"
   },
   {
     "id": "cf1ac3c5-0bed-43ba-b77d-ccfb8098ee15",
@@ -350,11 +390,13 @@
     "size": 4388269,
     "url": "/api/admin/documents/cf1ac3c5-0bed-43ba-b77d-ccfb8098ee15/original",
     "privateFilename": "cf1ac3c5-0bed-43ba-b77d-ccfb8098ee15-Internet_Fundamentals_Certificate.pdf",
-    "publicUrl": "/uploads/cf1ac3c5-0bed-43ba-b77d-ccfb8098ee15-public-Internet_Fundamentals_Certificate.pdf",
+    "publicUrl": "https://res.cloudinary.com/rlavfeow/raw/upload/v1788719304/alwali-portfolio/certificates/cf1ac3c5-0bed-43ba-b77d-ccfb8098ee15-public",
     "publicMimeType": "application/pdf",
     "hasPublicVersion": true,
     "published": true,
-    "createdAt": "2026-09-03T20:17:29.850Z"
+    "createdAt": "2026-09-03T20:17:29.850Z",
+    "publicId": "alwali-portfolio/certificates/cf1ac3c5-0bed-43ba-b77d-ccfb8098ee15-public",
+    "publicResourceType": "raw"
   },
   {
     "id": "16a87d52-aedc-4610-9ad2-471f0922ef04",
@@ -367,11 +409,13 @@
     "size": 4388423,
     "url": "/api/admin/documents/16a87d52-aedc-4610-9ad2-471f0922ef04/original",
     "privateFilename": "16a87d52-aedc-4610-9ad2-471f0922ef04-Internet_Search_and_beyond_Certificate.pdf",
-    "publicUrl": "/uploads/16a87d52-aedc-4610-9ad2-471f0922ef04-public-Internet_Search_and_beyond_Certificate.pdf",
+    "publicUrl": "https://res.cloudinary.com/rlavfeow/raw/upload/v1788719306/alwali-portfolio/certificates/16a87d52-aedc-4610-9ad2-471f0922ef04-public",
     "publicMimeType": "application/pdf",
     "hasPublicVersion": true,
     "published": true,
-    "createdAt": "2026-09-03T20:18:43.870Z"
+    "createdAt": "2026-09-03T20:18:43.870Z",
+    "publicId": "alwali-portfolio/certificates/16a87d52-aedc-4610-9ad2-471f0922ef04-public",
+    "publicResourceType": "raw"
   },
   {
     "id": "35e0911b-a436-4486-82b9-c40024caa12e",
@@ -384,11 +428,13 @@
     "size": 4388988,
     "url": "/api/admin/documents/35e0911b-a436-4486-82b9-c40024caa12e/original",
     "privateFilename": "35e0911b-a436-4486-82b9-c40024caa12e-Internet_Skills_for_Everyday_Use_Certificate.pdf",
-    "publicUrl": "/uploads/35e0911b-a436-4486-82b9-c40024caa12e-public-Internet_Skills_for_Everyday_Use_Certificate.pdf",
+    "publicUrl": "https://res.cloudinary.com/rlavfeow/raw/upload/v1788719309/alwali-portfolio/certificates/35e0911b-a436-4486-82b9-c40024caa12e-public",
     "publicMimeType": "application/pdf",
     "hasPublicVersion": true,
     "published": true,
-    "createdAt": "2026-09-03T20:21:13.515Z"
+    "createdAt": "2026-09-03T20:21:13.515Z",
+    "publicId": "alwali-portfolio/certificates/35e0911b-a436-4486-82b9-c40024caa12e-public",
+    "publicResourceType": "raw"
   },
   {
     "id": "188f77a7-a7ee-4e92-9aad-c87568d16d78",
@@ -401,11 +447,13 @@
     "size": 1011096,
     "url": "/api/admin/documents/188f77a7-a7ee-4e92-9aad-c87568d16d78/original",
     "privateFilename": "188f77a7-a7ee-4e92-9aad-c87568d16d78-IVC.jpg",
-    "publicUrl": "/uploads/188f77a7-a7ee-4e92-9aad-c87568d16d78-public-IVC.png",
+    "publicUrl": "https://res.cloudinary.com/rlavfeow/image/upload/v1788719318/alwali-portfolio/certificates/188f77a7-a7ee-4e92-9aad-c87568d16d78-public.jpg",
     "publicMimeType": "image/png",
     "hasPublicVersion": true,
     "published": true,
-    "createdAt": "2026-09-03T20:22:57.396Z"
+    "createdAt": "2026-09-03T20:22:57.396Z",
+    "publicId": "alwali-portfolio/certificates/188f77a7-a7ee-4e92-9aad-c87568d16d78-public",
+    "publicResourceType": "image"
   },
   {
     "id": "3bf151c3-28d9-4d57-b5b4-387b7b578813",
@@ -418,11 +466,13 @@
     "size": 1497090,
     "url": "/api/admin/documents/3bf151c3-28d9-4d57-b5b4-387b7b578813/original",
     "privateFilename": "3bf151c3-28d9-4d57-b5b4-387b7b578813-MSS_FGCM.jpg",
-    "publicUrl": "/uploads/3bf151c3-28d9-4d57-b5b4-387b7b578813-public-MSS_FGCM.png",
+    "publicUrl": "https://res.cloudinary.com/rlavfeow/image/upload/v1788719338/alwali-portfolio/certificates/3bf151c3-28d9-4d57-b5b4-387b7b578813-public.jpg",
     "publicMimeType": "image/png",
     "hasPublicVersion": true,
     "published": true,
-    "createdAt": "2026-09-03T20:25:49.674Z"
+    "createdAt": "2026-09-03T20:25:49.674Z",
+    "publicId": "alwali-portfolio/certificates/3bf151c3-28d9-4d57-b5b4-387b7b578813-public",
+    "publicResourceType": "image"
   },
   {
     "id": "3d031464-7264-4f67-8f47-9ca49e6166ce",
@@ -435,11 +485,13 @@
     "size": 1241736,
     "url": "/api/admin/documents/3d031464-7264-4f67-8f47-9ca49e6166ce/original",
     "privateFilename": "3d031464-7264-4f67-8f47-9ca49e6166ce-MSS_MCAN.jpg",
-    "publicUrl": "/uploads/3d031464-7264-4f67-8f47-9ca49e6166ce-public-MSS_MCAN.png",
+    "publicUrl": "https://res.cloudinary.com/rlavfeow/image/upload/v1788719350/alwali-portfolio/certificates/3d031464-7264-4f67-8f47-9ca49e6166ce-public.jpg",
     "publicMimeType": "image/png",
     "hasPublicVersion": true,
     "published": true,
-    "createdAt": "2026-09-03T20:27:51.571Z"
+    "createdAt": "2026-09-03T20:27:51.571Z",
+    "publicId": "alwali-portfolio/certificates/3d031464-7264-4f67-8f47-9ca49e6166ce-public",
+    "publicResourceType": "image"
   },
   {
     "id": "f8306d64-4b47-463e-a0a6-a1e560acecdf",
@@ -452,11 +504,13 @@
     "size": 1294155,
     "url": "/api/admin/documents/f8306d64-4b47-463e-a0a6-a1e560acecdf/original",
     "privateFilename": "f8306d64-4b47-463e-a0a6-a1e560acecdf-NAVC.jpg",
-    "publicUrl": "/uploads/f8306d64-4b47-463e-a0a6-a1e560acecdf-public-NAVC.png",
+    "publicUrl": "https://res.cloudinary.com/rlavfeow/image/upload/v1788719363/alwali-portfolio/certificates/f8306d64-4b47-463e-a0a6-a1e560acecdf-public.jpg",
     "publicMimeType": "image/png",
     "hasPublicVersion": true,
     "published": true,
-    "createdAt": "2026-09-03T20:31:15.008Z"
+    "createdAt": "2026-09-03T20:31:15.008Z",
+    "publicId": "alwali-portfolio/certificates/f8306d64-4b47-463e-a0a6-a1e560acecdf-public",
+    "publicResourceType": "image"
   },
   {
     "id": "37c23bb3-a9d1-4913-96a4-7761dc3da1f7",
@@ -469,11 +523,13 @@
     "size": 126715,
     "url": "/api/admin/documents/37c23bb3-a9d1-4913-96a4-7761dc3da1f7/original",
     "privateFilename": "37c23bb3-a9d1-4913-96a4-7761dc3da1f7-NYSC_certificate.pdf",
-    "publicUrl": "/uploads/37c23bb3-a9d1-4913-96a4-7761dc3da1f7-public-NYSC_certificate.pdf",
+    "publicUrl": "https://res.cloudinary.com/rlavfeow/raw/upload/v1788719369/alwali-portfolio/certificates/37c23bb3-a9d1-4913-96a4-7761dc3da1f7-public",
     "publicMimeType": "application/pdf",
     "hasPublicVersion": true,
     "published": true,
-    "createdAt": "2026-09-03T20:41:30.281Z"
+    "createdAt": "2026-09-03T20:41:30.281Z",
+    "publicId": "alwali-portfolio/certificates/37c23bb3-a9d1-4913-96a4-7761dc3da1f7-public",
+    "publicResourceType": "raw"
   },
   {
     "id": "a12ffd2f-0a54-4666-b91b-6b89c08fa9a3",
@@ -486,11 +542,13 @@
     "size": 4388282,
     "url": "/api/admin/documents/a12ffd2f-0a54-4666-b91b-6b89c08fa9a3/original",
     "privateFilename": "a12ffd2f-0a54-4666-b91b-6b89c08fa9a3-Responsible_AI_Certificate.pdf",
-    "publicUrl": "/uploads/a12ffd2f-0a54-4666-b91b-6b89c08fa9a3-public-Responsible_AI_Certificate.pdf",
+    "publicUrl": "https://res.cloudinary.com/rlavfeow/raw/upload/v1788719371/alwali-portfolio/certificates/a12ffd2f-0a54-4666-b91b-6b89c08fa9a3-public",
     "publicMimeType": "application/pdf",
     "hasPublicVersion": true,
     "published": true,
-    "createdAt": "2026-09-03T20:46:46.234Z"
+    "createdAt": "2026-09-03T20:46:46.234Z",
+    "publicId": "alwali-portfolio/certificates/a12ffd2f-0a54-4666-b91b-6b89c08fa9a3-public",
+    "publicResourceType": "raw"
   },
   {
     "id": "8ffe7081-d6c1-4191-9a33-ab3097d5e690",
@@ -503,11 +561,13 @@
     "size": 1585714,
     "url": "/api/admin/documents/8ffe7081-d6c1-4191-9a33-ab3097d5e690/original",
     "privateFilename": "8ffe7081-d6c1-4191-9a33-ab3097d5e690-Skill_Consult_Initiative.jpg",
-    "publicUrl": "/uploads/8ffe7081-d6c1-4191-9a33-ab3097d5e690-public-Skill_Consult_Initiative.png",
+    "publicUrl": "https://res.cloudinary.com/rlavfeow/image/upload/v1788719380/alwali-portfolio/certificates/8ffe7081-d6c1-4191-9a33-ab3097d5e690-public.jpg",
     "publicMimeType": "image/png",
     "hasPublicVersion": true,
     "published": true,
-    "createdAt": "2026-09-03T20:49:03.898Z"
+    "createdAt": "2026-09-03T20:49:03.898Z",
+    "publicId": "alwali-portfolio/certificates/8ffe7081-d6c1-4191-9a33-ab3097d5e690-public",
+    "publicResourceType": "image"
   },
   {
     "id": "1a30930e-f25f-4bf6-86b1-df3db3b292a0",
