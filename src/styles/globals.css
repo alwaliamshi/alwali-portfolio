@@ -4704,3 +4704,227 @@ html.has-wallpaper .projects-showcase-card {
     height: 28px;
   }
 }
+/* =========================================================
+   CONTACT PAGE — FINAL LAYOUT FIX
+   ========================================================= */
+
+/* Main content width */
+.contact-hero,
+.contact-content {
+  width: min(1080px, calc(100% - 3rem));
+  max-width: 1080px;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+/* Hero */
+.contact-hero {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Main two-column layout */
+.contact-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+/* Contact information column */
+.contact-info {
+  min-width: 0;
+}
+
+/* Contact cards */
+.contact-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.contact-card {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* Contact form container */
+.contact-form-wrapper {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 1.7rem;
+}
+
+/* Form heading */
+.contact-form-heading {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Form layout */
+.contact-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-sizing: border-box;
+}
+
+/* Name + Email row */
+.contact-form-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  box-sizing: border-box;
+}
+
+/* Individual fields */
+.contact-field {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* Labels */
+.contact-field label {
+  display: block;
+  margin-bottom: 0.45rem;
+}
+
+/* Inputs and textarea */
+.contact-field input,
+.contact-field textarea {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+/* Keep input height consistent */
+.contact-field input {
+  height: 48px;
+}
+
+/* Message field */
+.contact-field textarea {
+  width: 100%;
+  min-height: 145px;
+  resize: vertical;
+}
+
+/* Submit button */
+.contact-submit {
+  align-self: flex-start;
+}
+
+/* Bottom CTA */
+.contact-cta {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   CONTACT PAGE — MOBILE
+   ========================================================= */
+
+@media (max-width: 760px) {
+  .contact-hero,
+  .contact-content {
+    width: calc(100% - 2rem);
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .contact-form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-form-wrapper {
+    padding: 1.3rem;
+  }
+
+  .contact-submit {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-hero,
+  .contact-content {
+    width: calc(100% - 1.25rem);
+  }
+
+  .contact-form-wrapper {
+    padding: 1.1rem;
+  }
+
+  .contact-card {
+    min-height: 88px;
+  }
+}
+
+/* =========================================================
+   CONTACT PAGE — COLOR POLISH
+   ========================================================= */
+
+.contact-card {
+  text-decoration: none;
+  color: inherit;
+}
+
+.contact-card:nth-child(1) .contact-card-icon {
+  color: #93c5fd;
+  background: rgba(37, 99, 235, 0.10);
+  border-color: rgba(96, 165, 250, 0.18);
+}
+
+.contact-card:nth-child(2) .contact-card-icon {
+  color: #fca5a5;
+  background: rgba(239, 68, 68, 0.10);
+  border-color: rgba(248, 113, 113, 0.18);
+}
+
+.contact-card:nth-child(3) .contact-card-icon {
+  color: #93c5fd;
+  background: rgba(37, 99, 235, 0.10);
+  border-color: rgba(96, 165, 250, 0.18);
+}
+
+.contact-card:nth-child(1) > div:nth-child(2) strong,
+.contact-card:nth-child(3) > div:nth-child(2) strong {
+  color: #bfdbfe;
+}
+
+.contact-card:nth-child(2) > div:nth-child(2) strong {
+  color: #fecaca;
+}
+
+.contact-card:nth-child(1):hover .contact-card-icon,
+.contact-card:nth-child(3):hover .contact-card-icon {
+  color: #dbeafe;
+  border-color: rgba(96, 165, 250, 0.35);
+  background: rgba(37, 99, 235, 0.16);
+}
+
+.contact-card:nth-child(2):hover .contact-card-icon {
+  color: #fee2e2;
+  border-color: rgba(248, 113, 113, 0.35);
+  background: rgba(239, 68, 68, 0.16);
+}
+
+.contact-card-arrow {
+  color: #94a3b8;
+}
+
+.contact-card:hover .contact-card-arrow {
+  color: #e2e8f0;
+}

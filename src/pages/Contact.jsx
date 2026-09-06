@@ -48,11 +48,13 @@ export default function Contact() {
 
             <div className="contact-cards">
 
+              {/* GitHub */}
               <a
                 href="https://github.com/alwaliamshi"
                 target="_blank"
                 rel="noreferrer"
                 className="contact-card glass"
+                aria-label="View Alwali Umara Amshi's GitHub projects"
               >
                 <div className="contact-card-icon">
                   <svg
@@ -71,34 +73,67 @@ export default function Contact() {
                   <strong>View my projects</strong>
                 </div>
 
-                <span className="contact-card-arrow">↗</span>
+                <span className="contact-card-arrow">&rarr;</span>
               </a>
 
-              <div className="contact-card glass">
+              {/* Email */}
+              <a
+                href="mailto:alwali7983@gmail.com"
+                className="contact-card glass"
+                aria-label="Send an email to alwali7983@gmail.com"
+              >
                 <div className="contact-card-icon">
-                  <span aria-hidden="true">✉</span>
+                  <svg
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <rect x="3" y="5" width="18" height="14" rx="2" />
+                    <path d="m3 7 9 6 9-6" />
+                  </svg>
                 </div>
 
                 <div>
                   <span>Email</span>
-                  <strong>Use the message form</strong>
+                  <strong>alwali7983@gmail.com</strong>
                 </div>
 
-                <span className="contact-card-arrow">→</span>
-              </div>
+                <span className="contact-card-arrow">&rarr;</span>
+              </a>
 
-              <div className="contact-card glass">
+              {/* LinkedIn */}
+              <a
+                href="https://www.linkedin.com/in/alwali-umara-amshi-ab4993a9/"
+                target="_blank"
+                rel="noreferrer"
+                className="contact-card glass"
+                aria-label="Connect with Alwali Umara Amshi on LinkedIn"
+              >
                 <div className="contact-card-icon">
-                  <span aria-hidden="true">◎</span>
+                  <svg
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path d="M5.2 3.5A2.2 2.2 0 1 1 5.2 7.9 2.2 2.2 0 0 1 5.2 3.5ZM3.7 9h3v11h-3V9Zm5 0h2.9v1.5h.1c.4-.8 1.4-1.8 3.2-1.8 3.4 0 4 2.2 4 5.1V20h-3v-5.5c0-1.3 0-3-1.8-3-1.8 0-2.1 1.4-2.1 2.9V20h-3V9Z" />
+                  </svg>
                 </div>
 
                 <div>
                   <span>Professional Network</span>
-                  <strong>Let's connect professionally</strong>
+                  <strong>Connect on LinkedIn</strong>
                 </div>
 
-                <span className="contact-card-arrow">→</span>
-              </div>
+                <span className="contact-card-arrow">&rarr;</span>
+              </a>
 
             </div>
           </div>
@@ -184,7 +219,7 @@ export default function Contact() {
                 type="submit"
                 className="btn primary contact-submit"
               >
-                Send Message <span>→</span>
+                Send Message <span>&rarr;</span>
               </button>
 
               {submitted && (
