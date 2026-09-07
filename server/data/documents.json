@@ -10,13 +10,13 @@
     "size": 80124,
     "url": "/api/admin/documents/1966fd53-28e6-4e9e-b683-948cbf8538b8/original",
     "privateFilename": "1966fd53-28e6-4e9e-b683-948cbf8538b8-1MT_HP_-_Mentorship_cert._Alwali_Umara_Amshi.pdf",
-    "publicUrl": "https://res.cloudinary.com/rlavfeow/raw/upload/v1788719052/alwali-portfolio/certificates/1966fd53-28e6-4e9e-b683-948cbf8538b8-public",
+    "publicUrl": "https://res.cloudinary.com/rlavfeow/image/upload/v1788733175/alwali-portfolio/certificates/1966fd53-28e6-4e9e-b683-948cbf8538b8-public-pdf-test.pdf",
     "publicMimeType": "application/pdf",
     "hasPublicVersion": true,
     "published": true,
     "createdAt": "2026-09-03T04:53:53.748Z",
-    "publicId": "alwali-portfolio/certificates/1966fd53-28e6-4e9e-b683-948cbf8538b8-public",
-    "publicResourceType": "raw"
+    "publicId": "alwali-portfolio/certificates/1966fd53-28e6-4e9e-b683-948cbf8538b8-public-pdf-test",
+    "publicResourceType": "image"
   },
   {
     "id": "120cd11c-0069-428e-9430-4db1b7b60345",
@@ -585,5 +585,24 @@
     "hasPublicVersion": true,
     "published": true,
     "createdAt": "2026-09-05T05:11:23.535Z"
+  },
+  {
+    "id": "58f95ba1-c334-4e92-b272-5c5ede533228",
+    "title": "Test",
+    "issuer": "Test",
+    "date": "September 2026",
+    "category": "certificate",
+    "originalName": "TEST.pdf",
+    "mimeType": "application/pdf",
+    "size": 531434,
+    "url": "/api/admin/documents/58f95ba1-c334-4e92-b272-5c5ede533228/original",
+    "privateFilename": "58f95ba1-c334-4e92-b272-5c5ede533228-TEST.pdf",
+    "publicUrl": "https://res.cloudinary.com/rlavfeow/image/upload/v1788737285/alwali-portfolio/certificates/58f95ba1-c334-4e92-b272-5c5ede533228-public.pdf",
+    "publicMimeType": "application/pdf",
+    "publicId": "alwali-portfolio/certificates/58f95ba1-c334-4e92-b272-5c5ede533228-public",
+    "publicResourceType": "image",
+    "hasPublicVersion": true,
+    "published": true,
+    "createdAt": "2026-09-06T23:25:34.803Z"
   }
 ]

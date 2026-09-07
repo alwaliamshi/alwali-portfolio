@@ -218,7 +218,7 @@ async function uploadPublicDocumentToCloudinary(buffer, mimeType, publicId) {
     throw new Error('Cloudinary is not configured.');
   }
 
-  const resourceType = mimeType === 'application/pdf' ? 'raw' : 'image';
+  const resourceType = 'image';
 
   return new Promise((resolve, reject) => {
     const stream = cloudinary.uploader.upload_stream(

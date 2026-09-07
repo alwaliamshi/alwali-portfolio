@@ -17,59 +17,235 @@ function shouldRedact(text) {
 
 async function redactImageBuffer(buffer, worker) {
   const meta = await sharp(buffer).metadata();
-  const width = meta.width || 1600;
-  const height = meta.height || 1200;
-  const rgba = await sharp(buffer).resize({ width: Math.min(width, 2200), withoutEnlargement: true }).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
-  const ocrInput = await sharp(buffer).resize({ width: rgba.info.width }).png().toBuffer();
+
+  const originalWidth = meta.width || 1600;
+  const originalHeight = meta.height || 1200;
+
+  const resized = await sharp(buffer)
+    .resize({
+      width: Math.min(originalWidth, 2200),
+      withoutEnlargement: true
+    })
+    .ensureAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true });
+
+  const ocrInput = await sharp(buffer)
+    .resize({ width: resized.info.width })
+    .png()
+    .toBuffer();
+
   const result = await worker.recognize(ocrInput);
   const regions = [];
-  // If a line contains a sensitive label such as 'Certificate No' or 'Verification',
-  // redact the whole OCR line so the identifier beside it is removed as well.
+
+  // If a line contains a sensitive label such as
+  // "Certificate No" or "Verification", redact the whole OCR line.
   for (const line of result.data.lines || []) {
     const text = (line.text || '').trim();
+
     if (SENSITIVE_WORDS.test(text)) {
       const pad = 14;
-      regions.push({ left: Math.max(0, line.bbox.x0 - pad), top: Math.max(0, line.bbox.y0 - pad), width: line.bbox.x1 - line.bbox.x0 + pad * 2, height: line.bbox.y1 - line.bbox.y0 + pad * 2 });
+
+      const left = Math.max(
+        0,
+        line.bbox.x0 - pad
+      );
+
+      const top = Math.max(
+        0,
+        line.bbox.y0 - pad
+      );
+
+      const right = Math.min(
+        resized.info.width,
+        line.bbox.x1 + pad
+      );
+
+      const bottom = Math.min(
+        resized.info.height,
+        line.bbox.y1 + pad
+      );
+
+      if (right > left && bottom > top) {
+        regions.push({
+          left,
+          top,
+          width: right - left,
+          height: bottom - top
+        });
+      }
     }
   }
-  for (const word of result.data.words || []) {
-    if (shouldRedact(word.text)) {
-      const padX = Math.max(12, Math.round((word.bbox.x1 - word.bbox.x0) * 0.18));
-      const padY = Math.max(10, Math.round((word.bbox.y1 - word.bbox.y0) * 0.45));
-      regions.push({ left: Math.max(0, word.bbox.x0 - padX), top: Math.max(0, word.bbox.y0 - padY), width: word.bbox.x1 - word.bbox.x0 + padX * 2, height: word.bbox.y1 - word.bbox.y0 + padY * 2 });
-    }
-  }
-  // Detect QR codes/barcodes using jsQR on the OCR-sized raster.
+
+  // Detect QR codes and redact them.
   try {
-    const { data, info } = rgba;
-    const qr = jsQR(new Uint8ClampedArray(data), info.width, info.height, { inversionAttempts: 'attemptBoth' });
+    const { data, info } = resized;
+
+    const imageData = {
+      data,
+      width: info.width,
+      height: info.height
+    };
+
+    const qr = jsQR(
+      new Uint8ClampedArray(imageData.data),
+      imageData.width,
+      imageData.height
+    );
+
     if (qr?.location) {
-      const xs = [qr.location.topLeftCorner.x, qr.location.topRightCorner.x, qr.location.bottomLeftCorner.x, qr.location.bottomRightCorner.x];
-      const ys = [qr.location.topLeftCorner.y, qr.location.topRightCorner.y, qr.location.bottomLeftCorner.y, qr.location.bottomRightCorner.y];
-      const left = Math.max(0, Math.min(...xs) - 16), top = Math.max(0, Math.min(...ys) - 16);
-      regions.push({ left, top, width: Math.max(...xs) - Math.min(...xs) + 32, height: Math.max(...ys) - Math.min(...ys) + 32 });
+      const xs = [
+        qr.location.topLeftCorner.x,
+        qr.location.topRightCorner.x,
+        qr.location.bottomLeftCorner.x,
+        qr.location.bottomRightCorner.x
+      ];
+
+      const ys = [
+        qr.location.topLeftCorner.y,
+        qr.location.topRightCorner.y,
+        qr.location.bottomLeftCorner.y,
+        qr.location.bottomRightCorner.y
+      ];
+
+      const left = Math.max(
+        0,
+        Math.min(...xs) - 16
+      );
+
+      const top = Math.max(
+        0,
+        Math.min(...ys) - 16
+      );
+
+      const right = Math.min(
+        resized.info.width,
+        Math.max(...xs) + 16
+      );
+
+      const bottom = Math.min(
+        resized.info.height,
+        Math.max(...ys) + 16
+      );
+
+      if (right > left && bottom > top) {
+        regions.push({
+          left,
+          top,
+          width: right - left,
+          height: bottom - top
+        });
+      }
     }
   } catch {}
 
-  const scaleX = (meta.width || rgba.info.width) / rgba.info.width;
-  const scaleY = (meta.height || rgba.info.height) / rgba.info.height;
-  const composites = regions.map((r) => ({ input: { create: { width: Math.max(1, Math.round(r.width * scaleX)), height: Math.max(1, Math.round(r.height * scaleY)), channels: 4, background: { r: 255, g: 255, b: 255, alpha: 1 } } }, left: Math.round(r.left * scaleX), top: Math.round(r.top * scaleY) }));
+  const scaleX = originalWidth / resized.info.width;
+  const scaleY = originalHeight / resized.info.height;
+
+  const composites = regions
+    .map((region) => {
+      const left = Math.max(
+        0,
+        Math.min(
+          originalWidth - 1,
+          Math.round(region.left * scaleX)
+        )
+      );
+
+      const top = Math.max(
+        0,
+        Math.min(
+          originalHeight - 1,
+          Math.round(region.top * scaleY)
+        )
+      );
+
+      const right = Math.min(
+        originalWidth,
+        Math.round((region.left + region.width) * scaleX)
+      );
+
+      const bottom = Math.min(
+        originalHeight,
+        Math.round((region.top + region.height) * scaleY)
+      );
+
+      const width = Math.max(1, right - left);
+      const height = Math.max(1, bottom - top);
+
+      return {
+        input: {
+          create: {
+            width,
+            height,
+            channels: 4,
+            background: {
+              r: 255,
+              g: 255,
+              b: 255,
+              alpha: 1
+            }
+          }
+        },
+        left,
+        top
+      };
+    })
+    .filter(
+      (item) =>
+        item.left + item.input.create.width <= originalWidth &&
+        item.top + item.input.create.height <= originalHeight
+    );
+
   let output = sharp(buffer);
-  if (composites.length) output = output.composite(composites);
-  // Always add a small public-copy marker so the derivative is clearly identifiable.
-  const marker = `<svg width="900" height="70"><rect width="900" height="70" fill="white" fill-opacity="0.86"/><text x="20" y="46" font-family="Arial" font-size="28" fill="#333">PUBLIC PORTFOLIO COPY • Sensitive verification details redacted</text></svg>`;
-  output = output.composite([{ input: Buffer.from(marker), gravity: 'southeast' }]);
-  return output.toBuffer();
+
+  if (composites.length) {
+    output = output.composite(composites);
+  }
+
+  // Add the public-copy marker without exceeding the page dimensions.
+  const markerWidth = Math.min(900, originalWidth);
+  const markerHeight = Math.min(70, originalHeight);
+
+  const markerFontSize = Math.max(
+    12,
+    Math.min(28, Math.floor(markerWidth / 32))
+  );
+
+  const marker = `
+    <svg width="${markerWidth}" height="${markerHeight}">
+      <rect
+        width="${markerWidth}"
+        height="${markerHeight}"
+        fill="white"
+        fill-opacity="0.86"
+      />
+      <text
+        x="12"
+        y="${Math.min(markerHeight - 12, markerFontSize + 12)}"
+        font-family="Arial"
+        font-size="${markerFontSize}"
+        fill="#333"
+      >
+        PUBLIC PORTFOLIO COPY • Sensitive verification details redacted
+      </text>
+    </svg>
+  `;
+
+  output = output.composite([
+    {
+      input: Buffer.from(marker),
+      gravity: 'southeast'
+    }
+  ]);
+
+    return output.toBuffer();
 }
 
 export async function generatePublicCopy(inputPath, mimeType, outputPath) {
   const worker = await createWorker('eng');
+
   try {
-    if (mimeType.startsWith('image/')) {
-      const redacted = await redactImageBuffer(await fs.readFile(inputPath), worker);
-      await fs.writeFile(outputPath, redacted);
-      return { mimeType: 'image/png', extension: '.png' };
-    }
     if (mimeType === 'application/pdf') {
       const pdfData = await fs.readFile(inputPath);
       const pdf = await getDocument({ data: new Uint8Array(pdfData), disableWorker: true }).promise;

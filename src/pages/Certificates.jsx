@@ -1,5 +1,15 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { apiUrl, getDocuments } from '../lib/api';
+
+function getPdfPreviewUrl(publicUrl) {
+  if (!publicUrl) return '';
+
+  const url = apiUrl(publicUrl);
+
+  return url
+    .replace('/image/upload/', '/image/upload/pg_1/')
+    .replace(/\.pdf$/i, '.jpg');
+}
 
 export default function Certificates() {
   const [certificates, setCertificates] = useState([]);
@@ -74,7 +84,7 @@ export default function Certificates() {
         {loading ? (
           <div className="certificates-status glass">
             <div className="certificate-loading-spinner" />
-            <strong>Loading certificates…</strong>
+            <strong>Loading certificates&#8230;</strong>
             <p>Retrieving your professional credentials.</p>
           </div>
         ) : certificates.length === 0 ? (
@@ -123,11 +133,11 @@ export default function Certificates() {
                         loading="lazy"
                       />
                     ) : (
-                      <div className="certificate-pdf-preview">
-                        <span className="certificate-file-icon">PDF</span>
-                        <strong>Certificate Document</strong>
-                        <small>Public-safe copy</small>
-                      </div>
+                      <img
+                        src={getPdfPreviewUrl(certificate.publicUrl)}
+                        alt={`${certificate.title} certificate`}
+                        loading="lazy"
+                      />
                     )}
                   </div>
 
@@ -158,7 +168,7 @@ export default function Certificates() {
                       onClick={() => openCertificate(certificate)}
                     >
                       View Certificate
-                      <span aria-hidden="true">↗</span>
+                      <span aria-hidden="true">&#8599;</span>
                     </button>
                   </div>
                 </article>
@@ -198,7 +208,7 @@ export default function Certificates() {
                 onClick={closeCertificate}
                 aria-label="Close certificate viewer"
               >
-                ×
+                &#10005;
               </button>
             </div>
 
@@ -208,10 +218,10 @@ export default function Certificates() {
                   src={apiUrl(selectedCertificate.publicUrl)}
                   alt={`${selectedCertificate.title} certificate`}
                 />
-              ) : (
-                <iframe
-                  src={apiUrl(selectedCertificate.publicUrl)}
-                  title={selectedCertificate.title || 'Certificate'}
+               ) : (
+                <img
+                  src={getPdfPreviewUrl(selectedCertificate.publicUrl)}
+                  alt={`${selectedCertificate.title} certificate`}
                 />
               )}
             </div>
